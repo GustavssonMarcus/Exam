@@ -1,15 +1,21 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config();
+const bodyParser = require("body-parser");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.json());
 
 //route
 app.get('/', (req, res) => {
     res.send('Backend är igång');
 });
+
+app.get('/data', (req, res) => {
+    res.json({ message: 'Detta är data från backend' });
+  });
 
 //Starta route
 const PORT = process.env.PORT;
