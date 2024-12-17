@@ -18,33 +18,55 @@ if (!MONGOURL) {
 //Koppling mellan mongodb och vs code
 mongoose.connect(MONGOURL)
   .then(() => {
-    console.log("Connected to MongoDB!");
+    console.log("Ansluten till MongoDB!");
     app.listen(PORT, () => {
       console.log(`Server är igång på port ${PORT}`);
     });
   })
   .catch((err) => {
     console.error("Misslyckades att ansluta till MongoDB:", err.message);
+    process.exit(1);
   });
 
 //Hämtar data från mongodb
-  const userSchema = new mongoose.Schema({
-    name: String,
-    brand: String,
-    price: Number,
-    type: String,
-    size: String,
-    color: String
-  });
+const productSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  brand: { type: String, required: true },
+  price: { type: Number, required: true },
+  type: { type: String, required: true },
+  size: { type: String, required: true },
+  color: { type: String, required: true },
+});
 
-  const UserModel = mongoose.model("products", userSchema)
+  const ProductModel = mongoose.model("Product", productSchema);
 
-  app.get('/getProducts', async (req, res) => {
-    const userData = await UserModel.find();
-    res.json(userData || []);
-  });
+// API-routes
+app.get('/getProducts', async (req, res) => {
+  try {
+    const products = await ProductModel.find();
+    res.status(200).json(products);
+  } catch (err) {
+    console.error("Fel vid hämtning av produkter:", err);
+    res.status(500).json({ error: "Kunde inte hämta produkter" });
+  }
+});
 
-//route
+app.post('/addProduct', async (req, res) => {
+  try {
+    const newProduct = new ProductModel(req.body);
+    const savedProduct = await newProduct.save();
+    res.status(201).json(savedProduct);
+  } catch (err) {
+    console.error("Fel vid skapande av produkt:", err);
+    res.status(400).json({ error: "Kunde inte skapa produkt" });
+  }
+});
+
+// Testroute
 app.get('/', (req, res) => {
     res.send('Backend är igång');
+});
+
+app.use((req, res) => {
+  res.status(404).json({ error: "Sidan kunde inte hittas" });
 });
