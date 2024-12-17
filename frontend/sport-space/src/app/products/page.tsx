@@ -23,7 +23,7 @@ export default function Page() {
   return (
     <div>
       <h1>Produkter</h1>
-      
+      {/* Mappar ut alla produkter */}
         {products.map((product, index) => (
           <div key={index}>
             <ul>

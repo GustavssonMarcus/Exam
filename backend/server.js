@@ -40,8 +40,7 @@ mongoose.connect(MONGOURL)
   const UserModel = mongoose.model("products", userSchema)
 
   app.get('/getProducts', async (req, res) => {
-    const userData = await UserModel.find().lean();
-    console.log("data", userData)
+    const userData = await UserModel.find();
     res.json(userData || []);
   });
 
