@@ -2,8 +2,10 @@ require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const app = express();
+app.use(cors());
 
 //Hämtar variabler från .env filen
 const PORT = process.env.PORT || 7000;
@@ -28,15 +30,20 @@ mongoose.connect(MONGOURL)
 //Hämtar data från mongodb
   const userSchema = new mongoose.Schema({
     name: String,
-    age: Number,
+    brand: String,
+    price: Number,
+    type: String,
+    size: String,
+    color: String
   });
 
   const UserModel = mongoose.model("products", userSchema)
 
-  app.get('/getProducts', async(req, res) => {
-    const userData = await UserModel.find();
-      res.json(userData);
-    });
+  app.get('/getProducts', async (req, res) => {
+    const userData = await UserModel.find().lean();
+    console.log("data", userData)
+    res.json(userData || []);
+  });
 
 //route
 app.get('/', (req, res) => {
