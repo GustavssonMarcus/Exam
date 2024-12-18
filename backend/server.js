@@ -34,22 +34,20 @@ const productSchema = new mongoose.Schema({
   brand: { type: String, required: true },
   price: { type: Number, required: true },
   type: { type: String, required: true },
-  size: { type: String, required: true },
-  color: { type: String, required: true },
+  size: { type: [String], required: true, default: ["Standard"] },
+  color: { type: [String], required: true, default: ["Default Color"] },
 });
 
   const ProductModel = mongoose.model("Product", productSchema);
 
 // API-routes
 app.get('/getProducts', async (req, res) => {
-  try {
+
     const products = await ProductModel.find();
-    res.status(200).json(products);
-  } catch (err) {
-    console.error("Fel vid hämtning av produkter:", err);
-    res.status(500).json({ error: "Kunde inte hämta produkter" });
+    console.log("data", products)
+    res.json(products);
   }
-});
+);
 
 app.post('/addProduct', async (req, res) => {
   try {

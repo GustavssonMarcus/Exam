@@ -14,6 +14,7 @@ export default function Page() {
     axios.get<Product[]>(`${apiUrl}/getProducts`)
       .then(response => {
         setProducts(response.data); // Spara datan i state
+        console.log("data", response.data)
       })
       .catch(error => {
         console.error('Misslyckades att hämta produkter:', error);
@@ -30,13 +31,11 @@ export default function Page() {
               <li>{product.brand} {product.name}</li>
               <li>{product.price.toString()} Kr</li>
               <li>{product.type}</li>
-              <li>{product.size}</li>
-              <li>{product.color}</li>
-            </ul>
-
-          </div>
-        ))}
-      
+              <li>Storlekar: {Array.isArray(product.size) ? product.size.join(", ") : product.size}</li>
+              <li>Färger: {Array.isArray(product.color) ? product.color.join(", ") : product.color}</li>
+          </ul>
+        </div>
+      ))}
     </div>
   );
   }
