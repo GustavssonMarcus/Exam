@@ -41,29 +41,32 @@ const productSchema = new mongoose.Schema({
   const ProductModel = mongoose.model("Product", productSchema);
 
 // API-routes
+//Hämta produkter
 app.get('/getProducts', async (req, res) => {
   const products = await ProductModel.find();
-  //console.log("data", products)
   res.json(products);
 });
-
+//Filtrera produkterna efter type
 app.get('/filterProducts', async (req, res) => {
   try {
-    // Hämta filtreringskriterium från query-parametrar
     const { type } = req.query;
 
-    // Hämta och filtrera produkter baserat på 'type'
-    const filteredProducts = type
-      ? await ProductModel.find({ type }) // Filtrera på specifik typ om 'type' är satt
-      : await ProductModel.find(); // Returnera alla produkter om ingen typ är satt
+    let filter = {};
+    if (type) {
+      const types = Array.isArray(type) ? type : (typeof type === 'string' ? [type] : []);
+      //console.log("Filtreringslista:", types);
+      filter = { type: { $in: types } };
+    }
 
+    // Hämta och filtrera produkter baserat på 'type'
+    const filteredProducts = await ProductModel.find(filter);
     res.json(filteredProducts);
   } catch (err) {
     console.error("Fel vid filtrering av produkter:", err);
     res.status(500).json({ error: "Kunde inte filtrera produkter" });
   }
 });
-
+//Lägga till produkter
 app.post('/addProduct', async (req, res) => {
   try {
     const newProduct = new ProductModel(req.body);
