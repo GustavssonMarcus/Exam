@@ -42,12 +42,27 @@ const productSchema = new mongoose.Schema({
 
 // API-routes
 app.get('/getProducts', async (req, res) => {
+  const products = await ProductModel.find();
+  //console.log("data", products)
+  res.json(products);
+});
 
-    const products = await ProductModel.find();
-    console.log("data", products)
-    res.json(products);
+app.get('/filterProducts', async (req, res) => {
+  try {
+    // Hämta filtreringskriterium från query-parametrar
+    const { type } = req.query;
+
+    // Hämta och filtrera produkter baserat på 'type'
+    const filteredProducts = type
+      ? await ProductModel.find({ type }) // Filtrera på specifik typ om 'type' är satt
+      : await ProductModel.find(); // Returnera alla produkter om ingen typ är satt
+
+    res.json(filteredProducts);
+  } catch (err) {
+    console.error("Fel vid filtrering av produkter:", err);
+    res.status(500).json({ error: "Kunde inte filtrera produkter" });
   }
-);
+});
 
 app.post('/addProduct', async (req, res) => {
   try {
@@ -64,7 +79,7 @@ app.post('/addProduct', async (req, res) => {
 app.get('/', (req, res) => {
     res.send('Backend är igång');
 });
-
+// Error route
 app.use((req, res) => {
   res.status(404).json({ error: "Sidan kunde inte hittas" });
 });

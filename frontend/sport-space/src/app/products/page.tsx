@@ -14,7 +14,7 @@ export default function Page() {
     axios.get<Product[]>(`${apiUrl}/getProducts`)
       .then(response => {
         setProducts(response.data); // Spara datan i state
-        console.log("data", response.data)
+        //console.log("data", response.data)
       })
       .catch(error => {
         console.error('Misslyckades att hämta produkter:', error);
