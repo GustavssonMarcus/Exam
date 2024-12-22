@@ -1,27 +1,36 @@
+"use client";
+
 import Link from 'next/link';
 import React from 'react';
 
 const Header = () => {
+
   return (
-    <header className="bg-gray-900 text-white p-4">
-      <h1 className="text-lg font-bold">Min E-handel</h1>
-      <ul className="space-y-4">
-        <li>
-          <Link href="/" className="block px-4 py-2 rounded hover:bg-gray-700">
-            Startsidan
-          </Link>
-        </li>
-        <li>
-          <Link href="/products" className="block px-4 py-2 rounded hover:bg-gray-700">
-            Products
-          </Link>
-        </li>
-        <li>
-          <Link href="/checkout" className="block px-4 py-2 rounded hover:bg-gray-700">
-            Kassa
-          </Link>
-        </li>
-      </ul>
+    <header className="header">
+      <div className="header-container">
+        <ul className="header-container-nav">
+          {['Hem', 'Products', 'Om oss', 'Checkout'].map((text, index) => (
+            <li
+              key={index}
+              className={`header-container-nav-item`}
+            >
+              <Link href={index === 0 ? '/' : `/${text.toLowerCase()}`}>{text}</Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <h1 className="header__title">Sport Space</h1>
+      <div className='header-links'>
+        <img src="/svg/hitta.svg" alt="Hitta oss"/>
+        {['Hitta oss', 'Checkout'].map((text, index) => (
+          <li
+            key={index}
+            className={`header-links__item`}
+          >
+            <Link href={index === 0 ? '/' : `/${text.toLowerCase()}`}>{text}</Link>
+          </li>
+        ))}
+      </div>
     </header>
   );
 };
