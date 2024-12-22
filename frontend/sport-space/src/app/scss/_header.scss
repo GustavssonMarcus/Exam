@@ -1,2 +1,69 @@
 @use "variables.scss" as v;
-@include mixins;
+@import "mixins";
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100px;
+    max-width: 100vw;
+    background-color: v.$font-color;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    &-container {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        width: 400px;
+        &-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            &-item {
+                list-style-type: none;
+                height: 48px;
+                display: flex;
+                align-items: center;
+                a {
+                    font-family: v.$text-font;
+                    text-decoration: none;
+                    color: v.$text-color;
+                    font-size: 1.2rem;
+                    text-align: center;
+                }
+            }
+            &-item:hover {
+                border-bottom: 2px solid black;
+            }
+        }
+    }
+    &__title {
+        padding-right: 40px;
+        font-family: v.$title-font;
+    }
+    &-links {
+        padding-right: 40px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 20px;
+        width: 400px;
+        &__item {
+            list-style-type: none;
+            display: flex;
+            align-items: center;
+            a {
+                font-family: v.$text-font;
+                text-decoration: none;
+                color: v.$text-color;
+                font-size: 1.2rem;
+                text-align: center;
+            }
+        }
+        &__item:hover {
+            border-bottom: 2px solid black;
+        }
+    }
+}
