@@ -21,15 +21,13 @@ const Header = () => {
       </div>
       <h1 className="header__title">Sport Space</h1>
       <div className='header-links'>
-        <img src="/svg/hitta.svg" alt="Hitta oss"/>
-        {['Hitta oss', 'Checkout'].map((text, index) => (
-          <li
-            key={index}
-            className={`header-links__item`}
-          >
-            <Link href={index === 0 ? '/' : `/${text.toLowerCase()}`}>{text}</Link>
+          <li className={`header-links__item`}>
+            <img src="/svg/hitta.svg" alt="Hitta oss"/>
+            <Link href="/hitta-oss">Hitta oss</Link>
           </li>
-        ))}
+          <li className={`header-links__item`}>
+           <Link href="/checkout">Checkout</Link>
+          </li>
       </div>
     </header>
   );
