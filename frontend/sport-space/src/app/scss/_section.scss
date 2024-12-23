@@ -1,0 +1,105 @@
+@use "variables.scss" as v;
+@import "mixins";
+
+.content {
+    height: 100vh;
+    @include desktop {
+        height: auto;
+    }
+
+    &-product {
+        display: flex;
+        padding-top: 50px;
+        @include mobile {
+            flex-direction: column-reverse;
+            gap: 20px;
+        }
+
+        &-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            &__title {
+                font-family: v.$title-font;
+                font-size: 3rem;
+                font-weight: 500;
+                color: v.$text-color;
+                text-align: center;
+                @include mobile {
+                    margin: 0;
+                }
+            }
+            &__text {
+                font-family: v.$text-font;
+                font-size: 1.3rem;
+                color: v.$text-color;
+                width: 60%;
+            }
+            &__btn {
+                border: 2px solid v.$text-color;
+                border-radius: 20px;
+                cursor: pointer;
+                //height: 40px;
+                padding: 10px 15px;
+                a {
+                    text-decoration: none;
+                    font-size: 1rem;
+                    font-family: v.$text-font;
+                    font-weight: 500;
+                    color: v.$text-color;
+                }
+                a:hover {
+                    color: white;
+                }
+                &:hover {
+                    background-color: v.$text-color;
+                }
+            }
+        }
+        &-image {
+            position: relative;
+            //overflow: hidden;
+            &__link {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                z-index: 2;
+                color: white;
+                padding: 10px;
+                text-align: center;
+                font-family: v.$text-font;
+                font-size: 2rem;
+            }
+            &__img {
+                height: auto;
+                display: block;
+                transition: transform 0.5s ease;
+                @include mobile {
+                    width: 100%;
+                }
+            }
+        }
+        &-image::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
+            pointer-events: none;
+            z-index: 1;
+            transition: transform 0.5s ease, background  0.3s ease;
+        }
+        &-image:hover img {
+            transform: translateY(-10px);
+        }
+        &-image:hover::before {
+            background: linear-gradient(to top, #5A8AA0, rgba(0, 0, 0, 0));
+            transform: translateY(-10px);
+        }
+    }
+}
