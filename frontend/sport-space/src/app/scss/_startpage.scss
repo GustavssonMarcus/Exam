@@ -10,10 +10,13 @@
     align-items: center;
     &-title {
         font-family: v.$title-font;
+        color: v.$text-color;
         font-size: 3rem;
+        text-align: center;
     }
     &-text {
         font-family: v.$text-font;
+        color: v.$text-color;
         font-size: 1.3rem;
         margin: 0;
     }
