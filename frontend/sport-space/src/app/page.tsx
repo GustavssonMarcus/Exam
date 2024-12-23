@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
     <div>
@@ -15,7 +17,9 @@ export default function Home() {
                 Vare sig du är ute efter kläder, eller material för att kunna utföra din sport. 
                 Så har vi väldigt mycket att erbjuda när det kommer till bägge delar. 
               </p>
-              <button className="content-product-container__btn">Se produkter</button>
+              <button className="content-product-container__btn">
+                <Link href="/Products">Se våra produkter</Link>
+              </button>
             </div>
             <div className="content-product-image">
               <p className="content-product-image__link">Sport & Fritid</p>
