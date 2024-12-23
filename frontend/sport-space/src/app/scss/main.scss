@@ -7,7 +7,4 @@
 body {
     background-color: v.$body-color;
     margin: 0;
-    @include mobile {
-        min-width: 100vw;
-    }
 }

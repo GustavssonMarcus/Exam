@@ -1,33 +1,47 @@
 "use client";
 
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 
 const Header = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
 
   return (
     <header className="header">
       <div className="header-container">
-        <ul className="header-container-nav">
+        {/* Hamburger menu button */}
+        <button className="hamburger" onClick={toggleMenu}>
+          <span className="hamburger-line"></span>
+          <span className="hamburger-line"></span>
+          <span className="hamburger-line"></span>
+        </button>
+
+        {/* Navigation menu */}
+        <ul className={`header-container-nav ${menuOpen ? 'open' : ''}`}>
           {['Hem', 'Products', 'Om oss'].map((text, index) => (
-            <li
-              key={index}
-              className={`header-container-nav-item`}
-            >
+            <li key={index} className="header-container-nav-item">
               <Link href={index === 0 ? '/' : `/${text.toLowerCase()}`}>{text}</Link>
             </li>
           ))}
         </ul>
-      </div>
-      <h1 className="header__title">Sport Space</h1>
-      <div className='header-links'>
-          <li className={`header-links__item`}>
-            <img src="/svg/hitta.svg" alt="Hitta oss"/>
+
+        {/* Title */}
+        <h1 className="header__title">Sport Space</h1>
+
+        {/* Links */}
+        <ul className={`header-links ${menuOpen ? 'open' : ''}`}>
+          <li className="header-links__item">
+            <img src="/svg/hitta.svg" alt="Hitta oss" />
             <Link href="/hitta-oss">Hitta oss</Link>
           </li>
-          <li className={`header-links__item`}>
-           <Link href="/checkout">Kassa</Link>
+          <li className="header-links__item">
+            <Link href="/checkout">Kassa</Link>
           </li>
+        </ul>
       </div>
     </header>
   );
