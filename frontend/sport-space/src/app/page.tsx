@@ -15,12 +15,13 @@ export default function Home() {
                 Vare sig du är ute efter kläder, eller material för att kunna utföra din sport. 
                 Så har vi väldigt mycket att erbjuda när det kommer till bägge delar. 
               </p>
+              <button className="content-product-container__btn">Se produkter</button>
             </div>
             <div className="content-product-image">
-              <img src="/img/sport.jpg" alt="sport" />
+              <p className="content-product-image__link">Sport & Fritid</p>
+              <img src="/img/sport.jpg" alt="sport" className="content-product-image__img"/>
             </div>
           </div>
-          <button>Se produkter</button>
         </section>
 
       </main>
