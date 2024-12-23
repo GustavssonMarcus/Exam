@@ -9,7 +9,7 @@ const Header = () => {
     <header className="header">
       <div className="header-container">
         <ul className="header-container-nav">
-          {['Hem', 'Products', 'Om oss', 'Checkout'].map((text, index) => (
+          {['Hem', 'Products', 'Om oss'].map((text, index) => (
             <li
               key={index}
               className={`header-container-nav-item`}
@@ -26,7 +26,7 @@ const Header = () => {
             <Link href="/hitta-oss">Hitta oss</Link>
           </li>
           <li className={`header-links__item`}>
-           <Link href="/checkout">Checkout</Link>
+           <Link href="/checkout">Kassa</Link>
           </li>
       </div>
     </header>
