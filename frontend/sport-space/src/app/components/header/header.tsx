@@ -22,7 +22,7 @@ const Header = () => {
 
         {/* Navigation menu */}
         <ul className={`header-container-nav ${menuOpen ? 'open' : ''}`}>
-          {['Hem', 'Products', 'Om oss'].map((text, index) => (
+          {['Hem', 'Sortiment', 'Om oss', 'Kontakta oss'].map((text, index) => (
             <li key={index} className="header-container-nav-item">
               <Link href={index === 0 ? '/' : `/${text.toLowerCase()}`}>{text}</Link>
             </li>
@@ -37,6 +37,9 @@ const Header = () => {
           <li className="header-links__item">
             <img src="/svg/hitta.svg" alt="Hitta oss" />
             <Link href="/hitta-oss">Hitta oss</Link>
+          </li>
+          <li className="header-links__item">
+            <Link href="/favourites">Önskelista</Link>
           </li>
           <li className="header-links__item">
             <Link href="/checkout">Kassa</Link>
