@@ -18,7 +18,7 @@ export default function Home() {
                 Så har vi väldigt mycket att erbjuda när det kommer till bägge delar. 
               </p>
               <button className="content-product-container__btn">
-                <Link href="/Products">Se våra produkter</Link>
+                <Link href="/products">Se våra produkter</Link>
               </button>
             </div>
             <div className="content-product-image">
