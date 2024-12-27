@@ -39,9 +39,11 @@ const Header = () => {
             <Link href="/hitta-oss">Hitta oss</Link>
           </li>
           <li className="header-links__item">
+            <img src="/svg/wishlist.svg" alt="Önskelista" />
             <Link href="/favourites">Önskelista</Link>
           </li>
           <li className="header-links__item">
+            <img src="/svg/kassa.svg" alt="Kassa" />
             <Link href="/checkout">Kassa</Link>
           </li>
         </ul>
