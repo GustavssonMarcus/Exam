@@ -6,10 +6,14 @@ const Footer = () => {
       <div className='footer-content'>
         <div className='footer-content-top'>
           <div className='footer-content-top-visit'>
-            <p>Besök oss</p>
+            <h4>Besök oss</h4>
+            <p>Drottinggatan 1</p>
+            <p>111 51 Stockholm</p>
           </div>
           <div className='footer-content-top-contact'>
-            <p>Kontakta oss</p>
+            <h4>Kontakta oss</h4>
+            <p>08-123 456 78</p>
+            <p>info@sportspace.se</p>
           </div>
         </div>
         <div className='footer-content-middle'>

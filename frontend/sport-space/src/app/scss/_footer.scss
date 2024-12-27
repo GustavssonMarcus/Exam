@@ -12,8 +12,65 @@
         flex: 1;
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
+        padding: 40px;
+        box-sizing: border-box;
         &-top {
             display: flex;
+            &-visit {
+                flex: 1;
+                h4 {
+                    color: v.$text-color;
+                    font-family: v.$text-font;
+                    font-size: 1.3rem;      
+                    font-weight: 1000;   
+                    margin: 0;
+                }
+                p {
+                    color: v.$text-color;
+                    font-family: v.$text-font;
+                    font-size: 1.1rem;
+                }
+            }
+            &-contact {
+                flex: 1;
+                h4 {
+                    color: v.$text-color;
+                    font-family: v.$text-font;
+                    font-size: 1.3rem;
+                    font-weight: 1000;  
+                    margin: 0;
+                }
+                p {
+                    color: v.$text-color;
+                    font-family: v.$text-font;
+                    font-size: 1.1rem;
+                }
+            }
+        }
+        &-middle {
+            ul {
+                display: flex;
+                gap: 30px;
+                padding: 0;
+                li {
+                    list-style: none;
+                    color: v.$text-color;
+                    cursor: pointer;
+                    font-size: 1.1rem;
+                    font-family: v.$text-font;
+                }
+                li:hover {
+                    border-bottom: 2px solid v.$text-color;
+                }
+            }
+        }
+        &-bottom {
+            p {
+                color: v.$text-color;
+                font-size: 1.1rem;
+                font-family: v.$text-font;
+            }
         }
     }
     &-title {
