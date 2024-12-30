@@ -3,20 +3,22 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Product } from '../modules/products';
+import { useCart } from '../context/CartContext';
 
 export default function Page() {
   const [products, setProducts] = useState<Product[]>([]); // Alla produkter
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]); // Filtrerade produkter
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]); // Valda typer
-  const [cart, setCart] = useState<Product[]>([]);//Kundvagnen
+  // const [cart, setCart] = useState<Product[]>([]);//Kundvagnen
+  const { addToCart } = useCart();
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-  const addToCart = (product: Product) => {
-    setCart((prevCart) => [...prevCart, product]);
-    alert(`${product.name} har lagts till i kundvagnen!`);
-    console.log("Data", product);
-  };
+  // const addToCart = (product: Product) => {
+  //   setCart((prevCart) => [...prevCart, product]);
+  //   alert(`${product.name} har lagts till i kundvagnen!`);
+  //   console.log("Data", product);
+  // };
 
   useEffect(() => {
     // Hämta alla produkter när sidan laddas
