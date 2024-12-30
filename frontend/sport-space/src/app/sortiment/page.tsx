@@ -8,8 +8,15 @@ export default function Page() {
   const [products, setProducts] = useState<Product[]>([]); // Alla produkter
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]); // Filtrerade produkter
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]); // Valda typer
+  const [cart, setCart] = useState<Product[]>([]);//Kundvagnen
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+  const addToCart = (product: Product) => {
+    setCart((prevCart) => [...prevCart, product]);
+    alert(`${product.name} har lagts till i kundvagnen!`);
+    console.log("Data", product);
+  };
 
   useEffect(() => {
     // Hämta alla produkter när sidan laddas
@@ -44,6 +51,7 @@ export default function Page() {
         });
     }
   }, [selectedTypes, products]);
+
 
   return (
     <div>
@@ -92,6 +100,7 @@ export default function Page() {
               <li>Storlekar: {Array.isArray(product.size) ? product.size.join(", ") : product.size}</li>
               <li>Färger: {Array.isArray(product.color) ? product.color.join(", ") : product.color}</li>
             </ul>
+            <button onClick={() => addToCart(product)}>Lägg till i kundvagnen</button>
           </div>
         ))
       ) : (

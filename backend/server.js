@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 app.use(cors());
@@ -75,6 +76,39 @@ app.post('/addProduct', async (req, res) => {
   } catch (err) {
     console.error("Fel vid skapande av produkt:", err);
     res.status(400).json({ error: "Kunde inte skapa produkt" });
+  }
+});
+app.get('/checkout-session', async (req, res) => {
+  const { sessionId } = req.query;
+  const session = await stripe.checkout.sessions.retrieve(sessionId);
+  res.send(session);
+});
+//Skapar en checkout session
+app.post('/create-checkout-session', async (req, res) => {
+  try {
+    const { items, successUrl, cancelUrl } = req.body;
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: items.map(item => ({
+        price_data: {
+          currency: 'sek',
+          product_data: {
+            name: item.name,
+          },
+          unit_amount: item.price * 100, // Belopp i cent
+        },
+        quantity: item.quantity,
+      })),
+      mode: 'payment',
+      success_url: successUrl,
+      cancel_url: cancelUrl,
+    });
+
+    res.json({ id: session.id });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Något gick fel med att skapa checkout-sessionen' });
   }
 });
 
