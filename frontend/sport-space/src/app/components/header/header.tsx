@@ -22,7 +22,7 @@ const Header = () => {
 
         {/* Navigation menu */}
         <ul className={`header-container-nav ${menuOpen ? 'open' : ''}`}>
-          {['Hem', 'Sortiment', 'Om oss', 'Kontakta oss'].map((text, index) => (
+          {['Hem', 'Sortiment', 'Om', 'Kontakt'].map((text, index) => (
             <li key={index} className="header-container-nav-item">
               <Link href={index === 0 ? '/' : `/${text.toLowerCase()}`}>{text}</Link>
             </li>
