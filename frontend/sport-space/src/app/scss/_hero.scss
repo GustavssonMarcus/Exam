@@ -2,21 +2,22 @@
 @import "mixins";
 
 .hero {
-    height: 100vh;
+    height: 90vh;
     width: 100%;
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    background-color: v.$text-color;
     &-title {
         font-family: v.$title-font;
-        color: v.$text-color;
+        color: v.$body-color;
         font-size: 3rem;
         text-align: center;
     }
     &-text {
         font-family: v.$text-font;
-        color: v.$text-color;
+        color: v.$body-color;
         font-size: 1.3rem;
         margin: 0;
     }

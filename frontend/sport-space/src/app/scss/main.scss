@@ -7,11 +7,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Calligraffitti&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap');
 
 body {
-    background-color: v.$body-color;
+    background-color: v.$background;
     margin: 0;
 }
-.content {
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 0 20px;
+
+.block {
+    height: 100px;
+    width: 100%;
+    border-radius: 40px;
+    position: relative;
+    top: 50px;
+    background-color: v.$body-color;
 }
