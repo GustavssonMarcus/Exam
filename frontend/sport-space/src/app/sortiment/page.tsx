@@ -56,8 +56,8 @@ export default function Page() {
 
 
   return (
-    <div>
-      <h1>Produkter</h1>
+    <div className='sortiment'>
+      <h1 className='sortiment__title'>Produkter</h1>
 
       {/* Checkboxar för att välja Kategori */}
       <fieldset>
@@ -91,23 +91,26 @@ export default function Page() {
         </label>
       </fieldset>
 
-      {/* Lista filtrerade produkter */}
-      {filteredProducts.length > 0 ? (
-        filteredProducts.map((product, index) => (
-          <div key={index}>
-            <ul>
-              <li>{product.brand} {product.name}</li>
-              <li>{product.price.toString()} Kr</li>
-              <li>{product.type}</li>
-              <li>Storlekar: {Array.isArray(product.size) ? product.size.join(", ") : product.size}</li>
-              <li>Färger: {Array.isArray(product.color) ? product.color.join(", ") : product.color}</li>
-            </ul>
-            <button onClick={() => addToCart(product)}>Lägg till i kundvagnen</button>
-          </div>
-        ))
-      ) : (
-        <p>Inga produkter matchar de valda filtren.</p>
-      )}
+      <div className='sortiment-content'>
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product, index) => (
+            <div className='sortiment-content-product' key={index}>
+              <ul>
+                <li>{product.type}</li>
+                <li>{product.brand} {product.name}</li>
+                <li>{product.price.toString()} Kr</li>
+                <li>Storlekar: {Array.isArray(product.size) ? product.size.join(", ") : product.size}</li>
+                <li>Färger: {Array.isArray(product.color) ? product.color.join(", ") : product.color}</li>
+              </ul>
+              <button onClick={() => addToCart(product)}>
+                <img src="/svg/wishlist.svg" alt="Önskelista" />
+              </button>
+            </div>
+          ))
+        ) : (
+          <p>Inga produkter matchar de valda filtren.</p>
+        )}
+      </div>
     </div>
   );
 }
