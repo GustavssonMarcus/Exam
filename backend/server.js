@@ -31,22 +31,55 @@ mongoose.connect(MONGOURL)
 
 //Hämtar data från mongodb
 const productSchema = new mongoose.Schema({
+
   name: { type: String, required: true },
   brand: { type: String, required: true },
   price: { type: Number, required: true },
   type: { type: String, required: true },
   size: { type: [String], required: true, default: ["Standard"] },
   color: { type: [String], required: true, default: ["Default Color"] },
-});
+}, { timestamps: true });
 
   const ProductModel = mongoose.model("Product", productSchema);
 
 // API-routes
+
+//Hämta produkt baserat på Id
+app.get('/product/:id', async (req, res) => {
+  try {
+    const productId = req.params.id;
+
+    // Kontrollera om ID:t är ett giltigt ObjectId
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+      return res.status(400).json({ message: 'Ogiltigt ID-format.' });
+    }
+
+    // Hämta produkten baserat på ObjectId
+    const product = await ProductModel.findById(productId);
+
+    if (!product) {
+      return res.status(404).json({ message: 'Produkten hittades inte.' });
+    }
+
+    // Returnera produkten
+    res.status(200).json(product);
+  } catch (error) {
+    console.error("Fel vid hämtning av produkt:", error.message);
+    res.status(500).json({ message: 'Ett serverfel inträffade.' });
+  }
+});
+
 //Hämta produkter
 app.get('/getProducts', async (req, res) => {
-  const products = await ProductModel.find();
-  res.json(products);
+  try {
+    const products = await ProductModel.find();
+    res.status(200).json(products);
+  } catch (error) {
+    console.error("Fel vid hämtning av produkter:", error.message);
+    res.status(500).json({ message: 'Ett serverfel inträffade.' });
+  }
 });
+
 //Filtrera produkterna efter type
 app.get('/filterProducts', async (req, res) => {
   try {
@@ -67,17 +100,7 @@ app.get('/filterProducts', async (req, res) => {
     res.status(500).json({ error: "Kunde inte filtrera produkter" });
   }
 });
-//Lägga till produkter
-app.post('/addProduct', async (req, res) => {
-  try {
-    const newProduct = new ProductModel(req.body);
-    const savedProduct = await newProduct.save();
-    res.status(201).json(savedProduct);
-  } catch (err) {
-    console.error("Fel vid skapande av produkt:", err);
-    res.status(400).json({ error: "Kunde inte skapa produkt" });
-  }
-});
+
 app.get('/checkout-session', async (req, res) => {
   const { sessionId } = req.query;
   const session = await stripe.checkout.sessions.retrieve(sessionId);
