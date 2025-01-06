@@ -4,9 +4,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const bodyParser = require('body-parser');
 
 const app = express();
 app.use(cors());
+app.use(bodyParser.json());
 
 //Hämtar variabler från .env filen
 const PORT = process.env.PORT || 7000;
@@ -101,37 +103,45 @@ app.get('/filterProducts', async (req, res) => {
   }
 });
 
-app.get('/checkout-session', async (req, res) => {
-  const { sessionId } = req.query;
-  const session = await stripe.checkout.sessions.retrieve(sessionId);
-  res.send(session);
-});
 //Skapar en checkout session
 app.post('/create-checkout-session', async (req, res) => {
   try {
-    const { items, successUrl, cancelUrl } = req.body;
+    const { products } = req.body;
 
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: items.map(item => ({
+    if (!products || !Array.isArray(products) || products.length === 0) {
+      return res.status(400).json({ error: "Inga produkter tillhandahölls." });
+    }
+
+    // Skapa line items baserat på produkter
+    const lineItems = products.map(product => {
+      if (!product.name || !product.price || !product.quantity) {
+        throw new Error("Alla produkter måste innehålla namn, pris och antal.");
+      }
+
+      return {
         price_data: {
           currency: 'sek',
           product_data: {
-            name: item.name,
+            name: product.name,
           },
-          unit_amount: item.price * 100, // Belopp i cent
+          unit_amount: product.price * 100, // Stripe använder ören
         },
-        quantity: item.quantity,
-      })),
-      mode: 'payment',
-      success_url: successUrl,
-      cancel_url: cancelUrl,
+        quantity: product.quantity,
+      };
     });
 
-    res.json({ id: session.id });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Något gick fel med att skapa checkout-sessionen' });
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: lineItems,
+      mode: 'payment',
+      success_url: `${req.headers.origin}/success`,
+      cancel_url: `${req.headers.origin}/cancel`,
+    });
+
+    res.status(200).json({ id: session.id });
+  } catch (e) {
+    console.error("Error creating checkout session:", e);
+    res.status(500).json({ error: e.message });
   }
 });
 
