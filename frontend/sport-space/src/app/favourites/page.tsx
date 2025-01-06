@@ -14,7 +14,7 @@ export default function Page() {
           {cart.map((product: Product, index: number) => (
             <li key={index}>
               {product.brand} {product.name} - {product.price.toString()} Kr
-              <button onClick={() => removeFromCart(product.id)}>
+              <button onClick={() => removeFromCart(product._id)}>
                 Ta bort
               </button>
             </li>

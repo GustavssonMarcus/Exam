@@ -5,7 +5,7 @@ import { Product } from '../modules/products';
 type CartContextType = {
   cart: Product[];
   addToCart: (product: Product) => void;
-  removeFromCart: (productId: number) => void;
+  removeFromCart: (_id: string) => void;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -30,8 +30,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     setCart((prevCart) => [...prevCart, product]);
   };
   //Ta bort produkt från önskelistan
-  const removeFromCart = (id: number) => {
-    setCart((prevCart) => prevCart.filter((product, index) => product.id !== id || index !== prevCart.findIndex((p) => p.id === id)));
+  const removeFromCart = (_id: string) => {
+    setCart((prevCart) => prevCart.filter((product, index) => product._id !== _id || index !== prevCart.findIndex((p) => p._id === _id)));
   };
 
   return (
