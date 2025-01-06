@@ -4,6 +4,6 @@ export type Product = {
   brand: String,
   price: Number,
   type: String,
-  size: String[],
-  color: String[]
+  size: string[],
+  color: string[]
   };

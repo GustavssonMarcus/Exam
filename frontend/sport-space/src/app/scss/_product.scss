@@ -7,7 +7,7 @@
     justify-content: center;
     align-items: center;
     margin-top: 100px;
-    img {
+    &-return {
         position: relative;
         bottom: 150px;
         height: 20px;
@@ -60,6 +60,29 @@
           color: #28a745;
           font-weight: bold;
         }
+
+        .dropdown {
+            width: 100%;
+            max-width: 200px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            color: #333;
+            appearance: none;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+          
+            &:hover {
+              border-color: #999;
+            }
+          
+            &:focus {
+              border-color: #666;
+              box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            }
+          }
       
         .sizes,
         .colors {
@@ -70,11 +93,22 @@
           gap: 10px;
         }
       
-        .brand {
-          font-size: 1rem;
-          color: #007BFF;
-          font-weight: bold;
-          margin-top: 15px;
+        button {
+            border: none;
+            border-radius: 50px;
+            padding: 3px 6px;
+            position: relative;
+            left: 550px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease;
+        }
+        button:hover {
+            box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.3);
+        }
+        button:active {
+            transform: scale(0.95);
+            filter: blur(1px);
+            box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
         }
       
     }

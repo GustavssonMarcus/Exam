@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Product } from '../../modules/products';
+import { useCart } from '@/app/context/CartContext';
 
 type Params = {
   id: string;
@@ -11,6 +12,9 @@ type Params = {
 export default function ProductPage({ params }: { params: Params }) {
   const { id } = React.use(params);
   const [product, setProduct] = useState<Product | null>(null);
+  const [selectedSize, setSelectedSize] = useState<string>(''); // För vald storlek
+  const [selectedColor, setSelectedColor] = useState<string>('');
+  const { addToCart } = useCart();
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
@@ -20,6 +24,12 @@ export default function ProductPage({ params }: { params: Params }) {
           params: { _id: id },
         });
         setProduct(response.data);
+        if (response.data.size && response.data.size.length > 0) {
+          setSelectedSize(response.data.size[0]);
+        }
+        if (response.data.color && response.data.color.length > 0) {
+          setSelectedColor(response.data.color[0]);
+        }
       } catch (error) {
         console.error('Misslyckades att hämta produktdata:', error);
       }
@@ -28,6 +38,15 @@ export default function ProductPage({ params }: { params: Params }) {
     fetchProduct();
   }, [id]);
 
+    // Funktion för att hantera ändring av storlek
+    const handleSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+      setSelectedSize(event.target.value);
+    };
+  
+    // Funktion för att hantera ändring av färg
+    const handleColorChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+      setSelectedColor(event.target.value);
+    }
   if (!product) {
     return <div>Laddar produkt...</div>;
   }
@@ -35,7 +54,7 @@ export default function ProductPage({ params }: { params: Params }) {
   return (
     <div className='product'>
       <a href="/sortiment">
-        <img src="/svg/arrowLeft.svg" alt="return" />
+        <img className='product-return' src="/svg/arrowLeft.svg" alt="return" />
       </a>
       <div className="product-info">
         <h1>{product.brand} - {product.name}</h1>
@@ -43,14 +62,29 @@ export default function ProductPage({ params }: { params: Params }) {
         <p className="value">{product.type}</p>
         <p className="label price">Pris:</p>
         <p className="value">{product.price.toString()} Kr</p>
-        <p className="label">Storlekar:</p>
-        <p className="sizes">
-          {Array.isArray(product.size) ? product.size.join(", ") : product.size}
-        </p>
+        <select className="dropdown sizes" value={selectedSize} onChange={handleSizeChange}>
+          {Array.isArray(product.size)
+            ? product.size.map((size, index) => (
+                <option key={index} value={size}>
+                  {size}
+                </option>
+              ))
+            : <option value={product.size}>{product.size}</option>}
+        </select>
+        
         <p className="label">Färger:</p>
-        <p className="colors">
-          {Array.isArray(product.color) ? product.color.join(", ") : product.color}
-        </p>
+        <select className="dropdown colors" value={selectedColor} onChange={handleColorChange}>
+          {Array.isArray(product.color)
+            ? product.color.map((color, index) => (
+                <option key={index} value={color}>
+                  {color}
+                </option>
+              ))
+            : <option value={product.color}>{product.color}</option>}
+        </select>
+        <button onClick={() => addToCart(product)}>
+          <img src="/svg/wishlist.svg" alt="Önskelista" />
+        </button>
       </div>
     </div>
   );
