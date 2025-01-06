@@ -3,8 +3,8 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const bodyParser = require('body-parser');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 app.use(cors());
@@ -45,6 +45,54 @@ const productSchema = new mongoose.Schema({
   const ProductModel = mongoose.model("Product", productSchema);
 
 // API-routes
+
+//Skapar en checkout session
+app.post('/create-checkout-session', async (req, res) => {
+  try {
+    const { products } = req.body;
+
+    if (!products || !Array.isArray(products) || products.length === 0) {
+      return res.status(400).json({ error: "Inga produkter tillhandahölls." });
+    }
+
+    const lineItems = products.map(product => {
+      if (!product.name || !product.price || !product.quantity) {
+        throw new Error("Alla produkter måste innehålla namn, pris och antal.");
+      }
+
+      return {
+        price_data: {
+          currency: 'sek',
+          product_data: {
+            name: product.name,
+          },
+          unit_amount: product.price * 100,
+        },
+        quantity: product.quantity,
+      };
+    });
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: lineItems,
+      mode: 'payment',
+      success_url: `${req.headers.origin}/success`,
+      cancel_url: `${req.headers.origin}/cancel`,
+    });
+
+    res.status(200).json({ id: session.id });
+  } catch (e) {
+    console.error("Error creating checkout session:", e);
+    res.status(500).json({ error: e.message });
+  }
+});
+app.get('/success', (req, res) => {
+  res.send('<h1>Betalningen lyckades! Tack för din beställning.</h1>');
+});
+
+app.get('/cancel', (req, res) => {
+  res.send('<h1>Betalningen avbröts. Försök igen.</h1>');
+});
 
 //Hämta produkt baserat på Id
 app.get('/product/:id', async (req, res) => {
@@ -100,48 +148,6 @@ app.get('/filterProducts', async (req, res) => {
   } catch (err) {
     console.error("Fel vid filtrering av produkter:", err);
     res.status(500).json({ error: "Kunde inte filtrera produkter" });
-  }
-});
-
-//Skapar en checkout session
-app.post('/create-checkout-session', async (req, res) => {
-  try {
-    const { products } = req.body;
-
-    if (!products || !Array.isArray(products) || products.length === 0) {
-      return res.status(400).json({ error: "Inga produkter tillhandahölls." });
-    }
-
-    // Skapa line items baserat på produkter
-    const lineItems = products.map(product => {
-      if (!product.name || !product.price || !product.quantity) {
-        throw new Error("Alla produkter måste innehålla namn, pris och antal.");
-      }
-
-      return {
-        price_data: {
-          currency: 'sek',
-          product_data: {
-            name: product.name,
-          },
-          unit_amount: product.price * 100, // Stripe använder ören
-        },
-        quantity: product.quantity,
-      };
-    });
-
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: lineItems,
-      mode: 'payment',
-      success_url: `${req.headers.origin}/success`,
-      cancel_url: `${req.headers.origin}/cancel`,
-    });
-
-    res.status(200).json({ id: session.id });
-  } catch (e) {
-    console.error("Error creating checkout session:", e);
-    res.status(500).json({ error: e.message });
   }
 });
 
