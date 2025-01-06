@@ -33,13 +33,25 @@ export default function ProductPage({ params }: { params: Params }) {
   }
 
   return (
-    <div>
-      <h1>{product.name}</h1>
-      <p>Typ: {product.type}</p>
-      <p>Pris: {product.price.toString()} Kr</p>
-      <p>Storlekar: {Array.isArray(product.size) ? product.size.join(", ") : product.size}</p>
-      <p>Färger: {Array.isArray(product.color) ? product.color.join(", ") : product.color}</p>
-      <p>Märke: {product.brand}</p>
+    <div className='product'>
+      <a href="/sortiment">
+        <img src="/svg/arrowLeft.svg" alt="return" />
+      </a>
+      <div className="product-info">
+        <h1>{product.brand} - {product.name}</h1>
+        <p className="label product-type">Typ:</p>
+        <p className="value">{product.type}</p>
+        <p className="label price">Pris:</p>
+        <p className="value">{product.price.toString()} Kr</p>
+        <p className="label">Storlekar:</p>
+        <p className="sizes">
+          {Array.isArray(product.size) ? product.size.join(", ") : product.size}
+        </p>
+        <p className="label">Färger:</p>
+        <p className="colors">
+          {Array.isArray(product.color) ? product.color.join(", ") : product.color}
+        </p>
+      </div>
     </div>
   );
 }
