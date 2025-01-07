@@ -62,14 +62,14 @@
 
         }
         &-checkout {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
             max-width: 100%;
             background-color: v.$body-color;
             padding: 15px;
             border-radius: 15px;
             &-btn {
-                position: relative;
-                left: 60%;
-                top: 90%;
                 border: none;
                 background-color: transparent;
                 border-radius: 20px;

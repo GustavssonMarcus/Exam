@@ -28,6 +28,10 @@ export default function Page() {
       alert('Något gick fel vid betalning. Försök igen senare.');
     }
   };
+
+  // Beräkna total summa
+  const totalSum = cart.reduce((total, product) => total + product.price * product.quantity, 0);
+
   return (
   <div className="cart">
     <h1>Kundvagn</h1>
@@ -57,7 +61,10 @@ export default function Page() {
         <p>Inga produkter i önskelistan ännu.</p>
       )}
       <div className='cart-container-checkout'>
-        <button className='cart-container-checkout-btn' onClick={handleCheckout}>Gå till kassa</button>
+        <span className='cart-container-total'>Total: {totalSum.toFixed(2)} Kr</span>
+        <button className='cart-container-checkout-btn' onClick={handleCheckout}>
+          Gå till kassa
+        </button>
       </div>
     </div>
   </div>
