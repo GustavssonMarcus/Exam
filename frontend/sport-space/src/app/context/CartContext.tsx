@@ -36,10 +36,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     setCart((prevCart) => prevCart.filter((product, index) => product._id !== _id || index !== prevCart.findIndex((p) => p._id === _id)));
   };
   //Ökar antalet för en produkt
-  const increaseQuantity = (_id: string) => {
-    setCart((prev) =>
-      prev.map((product) =>
-        product._id === _id ? { ...product, quantity: product.quantity + 1 } : product
+  const increaseQuantity = (id: string) => {
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item._id === id
+          ? { ...item, quantity: (item.quantity || 0) + 1 } // Om quantity är null/undefined, sätt till 1
+          : item
       )
     );
   };
