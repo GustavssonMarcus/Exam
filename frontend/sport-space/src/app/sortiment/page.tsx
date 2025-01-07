@@ -11,6 +11,8 @@ export default function Page() {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]); // Filtrerade produkter
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]); // Valda typer
   const { addToCart } = useCart();
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [popupProduct, setPopupProduct] = useState<Product | null>(null);
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -48,6 +50,12 @@ export default function Page() {
     }
   }, [selectedTypes, products]);
 
+  const handleAddToCart = (product: Product) => {
+    addToCart(product);
+    setPopupProduct(product);
+    setPopupVisible(true);
+    setTimeout(() => setPopupVisible(false), 300000);
+  };
 
   return (
     <div className='sortiment'>
@@ -98,7 +106,7 @@ export default function Page() {
                 <li>Färger: {Array.isArray(product.color) ? product.color.join(", ") : product.color}</li>
               </ul>
               </Link>
-              <button onClick={() => addToCart(product)}>
+              <button onClick={() => handleAddToCart(product)}>
                 <img src="/svg/wishlist.svg" alt="Önskelista" />
               </button>
             </div>
@@ -107,6 +115,17 @@ export default function Page() {
           <p>Inga produkter matchar de valda filtren.</p>
         )}
       </div>
+      {popupVisible && popupProduct && (
+        <div className="popup">
+          <div className="popup-content">
+            <h2>Produkt tillagd i kundvagnen!</h2>
+            <p>
+              <strong>{popupProduct.name}</strong> har lagts till i din kundvagn.
+            </p>
+            <button onClick={() => setPopupVisible(false)}>Stäng</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

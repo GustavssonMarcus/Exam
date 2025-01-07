@@ -1,0 +1,39 @@
+@use "variables.scss" as v;
+@import "mixins";
+
+.popup {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    z-index: 1000;
+    border-radius: 8px;
+    &-content {
+        text-align: center;
+        h2 {
+            font-family: v.$text-font;
+        }
+        p {
+            font-family: v.$text-font;
+        }
+        button {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+            
+        button:hover {
+            background-color: #0056b3;
+        }
+    }
+}
+  
+  
