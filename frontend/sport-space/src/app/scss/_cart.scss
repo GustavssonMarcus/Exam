@@ -25,6 +25,9 @@
         box-sizing: border-box;
         background-color: v.$body-color;
         &-content {
+            max-height: 300px; /* Begränsa höjden för scroll */
+            overflow-y: auto; /* Scroll om det är många produkter */
+            padding: 10px;
             ul {
                 display: flex;
                 flex-direction: column;
@@ -39,32 +42,34 @@
                     border-radius: 15px;
                     width: 300px;
                     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+          
                     p {
-                        font-family: v.$text-font;
+                      font-family: v.$text-font;
                     }
+          
                     div {
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        gap: 10px;
-                        div {
-                        }
-                        button {
-                            border: none;
-                            background-color: transparent;
-                            border-radius: 10px;
-                            transition: ease-in-out 0.2s;
-                            padding: 5px;
-                            font-family: v.$text-font;
-                        }
-                        button:hover {
-                            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-                            background-color: v.$text-color;
-                        }
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                      gap: 10px;
+          
+                      button {
+                        border: none;
+                        background-color: transparent;
+                        border-radius: 10px;
+                        transition: ease-in-out 0.2s;
+                        padding: 5px;
+                        font-family: v.$text-font;
+                      }
+          
+                      button:hover {
+                        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+                        background-color: v.$text-color;
+                      }
                     }
-                }
+                  }
             }
-
+            
         }
         &-checkout {
             display: flex;
