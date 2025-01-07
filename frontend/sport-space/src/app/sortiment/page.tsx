@@ -90,6 +90,51 @@ export default function Page() {
           />
           <span>Innebandy</span>
         </label>
+        <label className='sortiment-category-innebandy'>
+          <input
+            type="checkbox"
+            value="Golf"
+            onChange={() => handleTypeChange("Golf")}
+            checked={selectedTypes.includes("Golf")}
+          />
+          <span>Golf</span>
+        </label>
+        <label className='sortiment-category-innebandy'>
+          <input
+            type="checkbox"
+            value="Hockey"
+            onChange={() => handleTypeChange("Hockey")}
+            checked={selectedTypes.includes("Hockey")}
+          />
+          <span>Hockey</span>
+        </label>
+        <label className='sortiment-category-innebandy'>
+          <input
+            type="checkbox"
+            value="Racketsport"
+            onChange={() => handleTypeChange("Racketsport")}
+            checked={selectedTypes.includes("Racketsport")}
+          />
+          <span>Racketsport</span>
+        </label>
+        <label className='sortiment-category-innebandy'>
+          <input
+            type="checkbox"
+            value="Fritid"
+            onChange={() => handleTypeChange("Fritid")}
+            checked={selectedTypes.includes("Fritid")}
+          />
+          <span>Fritid</span>
+        </label>
+        <label className='sortiment-category-innebandy'>
+          <input
+            type="checkbox"
+            value="Löpning"
+            onChange={() => handleTypeChange("Löpning")}
+            checked={selectedTypes.includes("Löpning")}
+          />
+          <span>Löpning</span>
+        </label>
       </fieldset>
 
       <div className='sortiment-content'>

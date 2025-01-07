@@ -13,10 +13,14 @@
     &-category {
         background-color: white;
         border: none;
-        height: 30px;
+        height: auto;
         display: flex;
         align-items: center;
         gap: 10px;
+        @include mobile {
+            display: flex;
+            flex-wrap: wrap;
+        }
 
         label {
             padding: 0.5rem 1rem;
@@ -30,7 +34,7 @@
             }
         
             span {
-              font-size: 1rem;
+              font-size: 0.9rem;
             }
             input[type="checkbox"]:checked + span {
                 font-weight: bold;

@@ -34,7 +34,7 @@ export default function Page() {
 
   return (
   <div className="cart">
-    <h1>Kundvagn</h1>
+    <h1 className="cart__title">Kundvagn</h1>
     <div className='cart-container'>
       {cart.length > 0 ? (
         <div className='cart-container-content'>
