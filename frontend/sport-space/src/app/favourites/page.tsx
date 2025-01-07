@@ -1,8 +1,18 @@
 "use client";
 
+require('dotenv').config();
+import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
 import { useCart } from '../context/CartContext';
 import { Product } from '../modules/products';
+
+const stripePublicKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+
+if (!stripePublicKey) {
+  throw new Error("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY är inte definierad i miljövariablerna.");
+}
+
+const stripePromise = loadStripe(stripePublicKey);
 
 export default function Page() {
   const { cart, removeFromCart, increaseQuantity, decreaseQuantity } = useCart();
@@ -12,6 +22,12 @@ export default function Page() {
   // Funktion för att skapa en checkout-session
   const handleCheckout = async () => {
     try {
+      const stripe = await stripePromise;
+
+      if (!stripe) {
+        throw new Error('Stripe kunde inte laddas.');
+      }
+
       const products = cart.map(product => ({
         name: product.name,
         price: product.price,
@@ -21,7 +37,7 @@ export default function Page() {
       const response = await axios.post(`${apiUrl}/create-checkout-session`, { products });
   
       if (response.data.id) {
-        window.location.href = `https://checkout.stripe.com/session/${response.data.id}`;
+        window.location.href = response.data.id;
       }
     } catch (error) {
       console.error('Error creating checkout session:', error);
