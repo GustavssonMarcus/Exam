@@ -30,26 +30,36 @@ export default function Page() {
   };
   return (
   <div className="cart">
-    <h1>Önskelistan</h1>
-    {cart.length > 0 ? (
-      <ul>
-        {cart.map((product: Product, index: number) => (
-          <li key={index}>
-            {product.brand} {product.name} -{" "}
-            {(product.price * product.quantity).toFixed(2)} Kr
-            <div>
-              <button onClick={() => decreaseQuantity(product._id)}>-</button>
-              <span>{product.quantity}</span>
-              <button onClick={() => increaseQuantity(product._id)}>+</button>
-            </div>
-            <button onClick={() => removeFromCart(product._id)}>Ta bort</button>
-          </li>
-        ))}
-      </ul>
-    ) : (
-      <p>Inga produkter i önskelistan ännu.</p>
-    )}
-    <button onClick={handleCheckout}>Betala</button>
+    <h1>Kundvagn</h1>
+    <div className='cart-container'>
+      {cart.length > 0 ? (
+        <div className='cart-container-content'>
+          <ul>
+            {cart.map((product: Product, index: number) => (
+              <li key={index}>
+                <p>
+                  {product.brand} {product.name} -{" "}
+                  {(product.price * product.quantity).toFixed(2)} Kr
+                </p>
+                <div>
+                  <div>
+                    <button onClick={() => decreaseQuantity(product._id)}>-</button>
+                    <span>{product.quantity}</span>
+                    <button onClick={() => increaseQuantity(product._id)}>+</button>
+                  </div>
+                    <button onClick={() => removeFromCart(product._id)}>Ta bort</button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <p>Inga produkter i önskelistan ännu.</p>
+      )}
+      <div className='cart-container-checkout'>
+        <button className='cart-container-checkout-btn' onClick={handleCheckout}>Gå till kassa</button>
+      </div>
+    </div>
   </div>
   );
 }

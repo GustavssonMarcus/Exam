@@ -3,4 +3,86 @@
 
 .cart {
     margin-top: 110px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: auto;
+        width: 30%;
+        padding: 10px;
+        margin: 50px 0;
+        border-radius: 15px;
+        min-width: 350px;
+        box-sizing: border-box;
+        background-color: v.$body-color;
+        &-content {
+            ul {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+                justify-content: space-around;
+                list-style-type: none;
+                padding: 0%;
+                li {
+                    background-color: v.$body-color;
+                    padding: 15px;
+                    border-radius: 15px;
+                    width: 300px;
+                    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+                    p {
+                        font-family: v.$text-font;
+                    }
+                    div {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        gap: 10px;
+                        div {
+                        }
+                        button {
+                            border: none;
+                            background-color: transparent;
+                            border-radius: 10px;
+                            transition: ease-in-out 0.2s;
+                            padding: 5px;
+                            font-family: v.$text-font;
+                        }
+                        button:hover {
+                            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+                        }
+                    }
+                }
+            }
+
+        }
+        &-checkout {
+            max-width: 100%;
+            background-color: v.$body-color;
+            padding: 15px;
+            border-radius: 15px;
+            &-btn {
+                position: relative;
+                left: 60%;
+                top: 90%;
+                border: none;
+                background-color: transparent;
+                border-radius: 20px;
+                transition: ease-in-out 0.2s;
+                font-family: v.$text-font;
+                font-size: 1.3rem;
+                width: auto;
+                height: 40px;
+            }
+            button:hover {
+                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            }
+        }
+
+    }
 }
