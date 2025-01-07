@@ -62,34 +62,33 @@ export default function Page() {
       <h1 className='sortiment__title'>Produkter</h1>
 
       {/* Checkboxar för att välja Kategori */}
-      <fieldset>
-        <legend>Filtrera efter typ:</legend>
-        <label>
+      <fieldset className='sortiment-category'>
+        <label className='sortiment-category-basket'>
           <input
             type="checkbox"
             value="Basket"
             onChange={() => handleTypeChange("Basket")}
             checked={selectedTypes.includes("Basket")}
           />
-          Basket
+          <span>Basket</span>
         </label>
-        <label>
+        <label className='sortiment-category-fotboll'>
           <input
             type="checkbox"
             value="Fotboll"
             onChange={() => handleTypeChange("Fotboll")}
             checked={selectedTypes.includes("Fotboll")}
           />
-          Fotboll
+          <span>Fotboll</span>
         </label>
-        <label>
+        <label className='sortiment-category-innebandy'>
           <input
             type="checkbox"
             value="Innebandy"
             onChange={() => handleTypeChange("Innebandy")}
             checked={selectedTypes.includes("Innebandy")}
           />
-          Innebandy
+          <span>Innebandy</span>
         </label>
       </fieldset>
 
@@ -97,15 +96,17 @@ export default function Page() {
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product, index) => (
             <div className='sortiment-content-product' key={index}>
-              <Link href={`/product/${product._id}`}>
-              <ul>
-                <li>{product.type}</li>
-                <li>{product.brand} {product.name}</li>
-                <li>{product.price.toString()} Kr</li>
-                <li>Storlekar: {Array.isArray(product.size) ? product.size.join(", ") : product.size}</li>
-                <li>Färger: {Array.isArray(product.color) ? product.color.join(", ") : product.color}</li>
-              </ul>
-              </Link>
+              <div>
+                <Link href={`/product/${product._id}`}>
+                <ul>
+                  <li>{product.type}</li>
+                  <li>{product.brand} {product.name}</li>
+                  <li>{product.price.toString()} Kr</li>
+                  <li>Storlekar: {Array.isArray(product.size) ? product.size.join(", ") : product.size}</li>
+                  <li>Färger: {Array.isArray(product.color) ? product.color.join(", ") : product.color}</li>
+                </ul>
+                </Link>
+              </div>
               <button onClick={() => handleAddToCart(product)}>
                 <img src="/svg/wishlist.svg" alt="Önskelista" />
               </button>
