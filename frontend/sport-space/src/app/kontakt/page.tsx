@@ -9,7 +9,9 @@ export default function Page() {
     message: "",
   });
 
-  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -19,22 +21,45 @@ export default function Page() {
     });
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log("Form data submitted:", formData);
-    setSubmitted(true);
+    setLoading(true);
+    setError('');
+    setSuccess(false);
 
-    setFormData({
-      name: "",
-      email: "",
-      message: "",
-    });
+    try {
+      const response = await fetch('/api/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          to: formData.email,
+          subject: `Nytt meddelande från ${formData.name}`,
+          firstName: formData.name,
+          message: formData.message
+        }),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Ett fel inträffade.');
+      }
+  
+      setSuccess(true);
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error: any) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="contact">
-     <h1>Kontakta oss</h1>
-      {submitted && <p>Tack för ditt meddelande! Vi återkommer så snart som möjligt.</p>}
+      <h1>Kontakta oss</h1>
+      {success && <p>Tack för ditt meddelande! Vi har mottagit det.</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="name">Namn:</label>
@@ -68,7 +93,9 @@ export default function Page() {
             required
           ></textarea>
         </div>
-        <button type="submit">Skicka</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Skickar..." : "Skicka"}
+        </button>
       </form>
     </div>
   );
