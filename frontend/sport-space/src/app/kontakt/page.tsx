@@ -60,13 +60,14 @@ export default function Page() {
       <h1>Kontakta oss</h1>
       {success && <p>Tack för ditt meddelande! Vi har mottagit det.</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
+      <form className="contact-form" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="name">Namn:</label>
           <input
             type="text"
             id="name"
             name="name"
+            placeholder="Ditt namn..."
             value={formData.name}
             onChange={handleChange}
             required
@@ -78,6 +79,7 @@ export default function Page() {
             type="email"
             id="email"
             name="email"
+            placeholder="E-post..."
             value={formData.email}
             onChange={handleChange}
             required
@@ -88,6 +90,7 @@ export default function Page() {
           <textarea
             id="message"
             name="message"
+            placeholder="Meddelande..."
             value={formData.message}
             onChange={handleChange}
             required
