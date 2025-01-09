@@ -57,7 +57,7 @@ export default function Page() {
 
   return (
     <div className="contact">
-      <h1>Kontakta oss</h1>
+      <h1 className="contact-title">Kontakta oss</h1>
       {success && <p>Tack för ditt meddelande! Vi har mottagit det.</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form className="contact-form" onSubmit={handleSubmit}>

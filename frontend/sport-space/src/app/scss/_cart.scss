@@ -7,10 +7,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    &__title {
-        font-family: v.$text-font;
-        font-size: 2.3rem;
-    }
     &-container {
         height: auto;
         width: 100%;
@@ -24,18 +20,51 @@
             justify-content: flex-start;
             gap: 20px;
             &-products {
-                height: 250px;
+                height: auto;
                 width: 200px;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
                 background-color: v.$body-color;
                 border-radius: 20px;
+                padding: 5px;
                 div {
                     p {
                         text-align: center;
                     }
                 }
+                &-dropdown {
+                    width: 100%;
+                    max-width: 200px;
+                    padding: 10px;
+                    font-size: 16px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    background-color: #f9f9f9;
+                    color: #333;
+                    appearance: none;
+                    outline: none;
+                    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+                  
+                    &:hover {
+                      border-color: #999;
+                    }
+                  
+                    &:focus {
+                      border-color: #666;
+                      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+                    }
+                  }
+                  .sizes,
+                  .colors {
+                    height: 30px;
+                    font-size: 0.9rem;
+                    color: #6c757d;
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 10px;
+                  }
+              
                 &-checkout {
                     display: flex;
                     align-items: center;

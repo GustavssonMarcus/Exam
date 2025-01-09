@@ -25,3 +25,8 @@ body {
     top: 50px;
     background-color: v.$body-color;
 }
+h1 {
+    font-family: v.$text-font;
+    font-size: 2.3rem;
+    border-bottom: 3px solid black;
+}

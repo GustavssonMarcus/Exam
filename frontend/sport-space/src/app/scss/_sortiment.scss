@@ -4,12 +4,10 @@
 .sortiment {
     height: auto;
     margin-top: 100px;
-    &__title {
-        text-align: center;
-        font-family: v.$title-font;
-        font-size: 3rem;
-        font-weight: 500;
-    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
     &-category {
         background-color: white;
         border: none;
@@ -17,6 +15,8 @@
         display: flex;
         align-items: center;
         gap: 10px;
+        width: 100%;
+        box-sizing: border-box;
         @include mobile {
             display: flex;
             flex-wrap: wrap;
