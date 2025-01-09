@@ -145,7 +145,7 @@ export default function Page() {
                 <Link href={`/product/${product._id}`}>
                 <ul>
                   <li>{product.type}</li>
-                  <li>{product.brand} {product.name}</li>
+                  <li>{product.brand} - {product.name}</li>
                   <li>{product.price.toString()} Kr</li>
                   <li>Storlekar: {Array.isArray(product.size) ? product.size.join(", ") : product.size}</li>
                   <li>Färger: {Array.isArray(product.color) ? product.color.join(", ") : product.color}</li>

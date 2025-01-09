@@ -1,7 +1,7 @@
 @use "variables.scss" as v;
 @import "mixins";
 
-.cart {
+.checkout {
     margin-top: 110px;
     display: flex;
     flex-direction: column;
@@ -79,6 +79,13 @@
             background-color: v.$body-color;
             padding: 15px;
             border-radius: 15px;
+            &-total {
+              font-size: 0.8rem;
+              font-family: v.$text-font;
+              strong {
+                font-size: 1.1rem;
+              }
+            }
             &-btn {
                 border: none;
                 background-color: transparent;
