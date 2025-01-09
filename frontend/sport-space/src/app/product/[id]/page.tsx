@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Product } from '../../modules/products';
 import { useCart } from '@/app/context/CartContext';
+import { useProductContext } from '@/app/context/ProductContext';
 
 type Params = {
   id: string;
@@ -12,8 +13,7 @@ type Params = {
 export default function ProductPage({ params }: { params: Params }) {
   const { id } = React.use(params);
   const [product, setProduct] = useState<Product | null>(null);
-  const [selectedSize, setSelectedSize] = useState<string>(''); // För vald storlek
-  const [selectedColor, setSelectedColor] = useState<string>('');
+  const { selectedSize, selectedColor, handleSizeChange, handleColorChange, setSelectedSize, setSelectedColor } = useProductContext();
   const { addToCart } = useCart();
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -36,17 +36,8 @@ export default function ProductPage({ params }: { params: Params }) {
     };
 
     fetchProduct();
-  }, [id]);
+  }, [id, setSelectedSize, setSelectedColor]);
 
-    // Funktion för att hantera ändring av storlek
-    const handleSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-      setSelectedSize(event.target.value);
-    };
-  
-    // Funktion för att hantera ändring av färg
-    const handleColorChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-      setSelectedColor(event.target.value);
-    }
   if (!product) {
     return <div>Laddar produkt...</div>;
   }
