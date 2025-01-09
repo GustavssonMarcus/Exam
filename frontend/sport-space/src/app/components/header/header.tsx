@@ -35,16 +35,10 @@ const Header = () => {
         {/* Links */}
         <ul className={`header-links ${menuOpen ? 'open' : ''}`}>
           <li className="header-links__item">
-            <img src="/svg/hitta.svg" alt="Hitta oss" />
-            <Link href="/hitta-oss">Hitta oss</Link>
+            <Link href="/favourites"><img src="/svg/wishlist.svg" alt="Önskelista"/>Önskelista</Link>
           </li>
           <li className="header-links__item">
-            <img src="/svg/wishlist.svg" alt="Önskelista" />
-            <Link href="/favourites">Önskelista</Link>
-          </li>
-          <li className="header-links__item">
-            <img src="/svg/kassa.svg" alt="Kassa" />
-            <Link href="/checkout">Kassa</Link>
+            <Link href="/checkout"><img src="/svg/kassa.svg" alt="Kassa"/>Kassa</Link>
           </li>
         </ul>
       </div>
