@@ -1,0 +1,65 @@
+@use "variables.scss" as v;
+@import "mixins";
+
+.cart {
+    margin-top: 110px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    &__title {
+        font-family: v.$text-font;
+        font-size: 2.3rem;
+    }
+    &-container {
+        height: auto;
+        width: 100%;
+        padding: 20px;
+        margin: 50px 0;
+        border-radius: 15px;
+        min-width: 350px;
+        box-sizing: border-box;
+        &-content {
+            display: flex;
+            justify-content: flex-start;
+            gap: 20px;
+            &-products {
+                height: 250px;
+                width: 200px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                background-color: v.$body-color;
+                border-radius: 20px;
+                div {
+                    p {
+                        text-align: center;
+                    }
+                }
+                &-checkout {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-around;
+                    max-width: 100%;
+                    background-color: v.$body-color;
+                    padding: 10px;
+                    border-radius: 15px;
+                    button {
+                        border: none;
+                        background-color: transparent;
+                        border-radius: 20px;
+                        transition: ease-in-out 0.2s;
+                        font-family: v.$text-font;
+                        font-size: 1rem;
+                        width: auto;
+                        height: 40px;
+                    }
+                    button:hover {
+                        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+                        background-color: v.$text-color;
+                    }
+                }
+            }
+        }
+    }
+}
