@@ -53,6 +53,7 @@ export default function ProductPage({ params }: { params: Params }) {
         <p className="value">{product.type}</p>
         <p className="label price">Pris:</p>
         <p className="value">{product.price.toString()} Kr</p>
+        <p className="label">Storlek:</p>
         <select className="dropdown sizes" value={selectedSize} onChange={handleSizeChange}>
           {Array.isArray(product.size)
             ? product.size.map((size, index) => (
