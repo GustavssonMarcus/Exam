@@ -8,10 +8,7 @@ height: 120vh;
 }
     .content {
         background-color: v.$body-color;
-        height: 100vh;
-        @include desktop {
-            height: 60vh;
-        }
+
         &-product {
             display: flex;
             padding-top: 50px;
