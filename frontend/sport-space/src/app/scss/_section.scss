@@ -6,103 +6,101 @@ height: 120vh;
 @include desktop {
     height: auto;
 }
-.content {
-    background-color: v.$body-color;
-
-    &-product {
-        display: flex;
-        padding-top: 50px;
-        @include mobile {
-            flex-direction: column-reverse;
-            gap: 20px;
+    .content {
+        background-color: v.$body-color;
+        height: 100vh;
+        @include desktop {
+            height: 60vh;
         }
-
-        &-container {
+        &-product {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            padding-top: 50px;
+            @include mobile {
+                flex-direction: column-reverse;
+                gap: 20px;
+            }
 
-            &__title {
-                font-family: v.$title-font;
-                font-size: 3rem;
-                font-weight: 500;
-                color: v.$text-color;
-                text-align: center;
-                @include mobile {
-                    margin: 0;
-                }
-            }
-            &__text {
-                font-family: v.$text-font;
-                font-size: 1.3rem;
-                color: v.$text-color;
-                width: 60%;
-            }
-            &__btn {
-                border: 2px solid v.$text-color;
-                border-radius: 20px;
-                cursor: pointer;
-                //height: 40px;
-                padding: 10px 15px;
-                a {
-                    text-decoration: none;
-                    font-size: 1rem;
-                    font-family: v.$text-font;
+            &-container {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                &__title {
+                    font-family: v.$title-font;
+                    font-size: 3rem;
                     font-weight: 500;
-                    color: v.$text-color;
+                    text-align: center;
+                    @include mobile {
+                        margin: 0;
+                    }
                 }
-                a:hover {
-                    color: white;
+                &__text {
+                    font-family: v.$text-font;
+                    font-size: 1.3rem;
+                    width: 60%;
                 }
-                &:hover {
-                    background-color: v.$text-color;
+                &__btn {
+                    border: 2px solid transparent;
+                    border-radius: 20px;
+                    cursor: pointer;
+                    padding: 10px 15px;
+                    background-color: transparent;
+                    transition: ease-in-out 0.2s;
+                    a {
+                        text-decoration: none;
+                        font-size: 1rem;
+                        font-family: v.$text-font;
+                        font-weight: 500;
+                        color: black;
+                    }
+                    &:hover {
+                        background-color: v.$text-color;
+                        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+                    }
                 }
             }
-        }
-        &-image {
-            position: relative;
-            //overflow: hidden;
-            &__link {
+            &-image {
+                position: relative;
+                &__link {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    z-index: 2;
+                    color: white;
+                    text-align: center;
+                    font-family: v.$text-font;
+                    font-size: 2rem;
+                }
+                &__img {
+                    height: auto;
+                    display: block;
+                    transition: transform 0.5s ease;
+                    @include mobile {
+                        width: 100%;
+                    }
+                }
+            }
+            &-image::before {
+                content: "";
                 position: absolute;
                 bottom: 0;
                 left: 0;
                 width: 100%;
-                z-index: 2;
-                color: white;
-                //padding: 10px;
-                text-align: center;
-                font-family: v.$text-font;
-                font-size: 2rem;
+                height: 408px;
+                background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
+                pointer-events: none;
+                z-index: 1;
+                transition: transform 0.5s ease, background  0.3s ease;
             }
-            &__img {
-                height: auto;
-                display: block;
-                transition: transform 0.5s ease;
-                @include mobile {
-                    width: 100%;
-                }
+            &-image:hover img {
+                transform: translateY(-10px);
             }
-        }
-        &-image::before {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 50%;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
-            pointer-events: none;
-            z-index: 1;
-            transition: transform 0.5s ease, background  0.3s ease;
-        }
-        &-image:hover img {
-            transform: translateY(-10px);
-        }
-        &-image:hover::before {
-            background: linear-gradient(to top, #5A8AA0, rgba(0, 0, 0, 0));
-            transform: translateY(-10px);
+            &-image:hover::before {
+                background: linear-gradient(to top, #5A8AA0, rgba(0, 0, 0, 0));
+                transform: translateY(-10px);
+            }
         }
     }
-}
 }

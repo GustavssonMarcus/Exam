@@ -18,7 +18,8 @@
         &-content {
             display: flex;
             justify-content: flex-start;
-            gap: 20px;
+            flex-wrap: wrap;
+            gap: 40px;
             &-products {
                 height: auto;
                 width: 200px;

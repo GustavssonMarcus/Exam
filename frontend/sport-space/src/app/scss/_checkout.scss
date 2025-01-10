@@ -20,8 +20,8 @@
         box-sizing: border-box;
         background-color: v.$body-color;
         &-content {
-            max-height: 300px; /* Begränsa höjden för scroll */
-            overflow-y: auto; /* Scroll om det är många produkter */
+            max-height: 300px; 
+            overflow-y: auto; 
             padding: 10px;
             ul {
                 display: flex;
