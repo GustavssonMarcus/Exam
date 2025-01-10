@@ -166,7 +166,7 @@ export default function Page() {
           <div className="popup-content">
             <h2>Produkt tillagd i kundvagnen!</h2>
             <p>
-              <strong>{popupProduct.name}</strong> har lagts till i din kundvagn.
+              <strong>{popupProduct.name}</strong> har lagts till i din önskelista.
             </p>
             <button onClick={() => setPopupVisible(false)}>Stäng</button>
           </div>

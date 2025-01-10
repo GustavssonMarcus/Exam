@@ -3,8 +3,9 @@
 require('dotenv').config();
 import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
-import { useCart } from '../context/CartContext';
+import { useCheckout } from '../context/CheckoutContext';
 import { Product } from '../modules/products';
+import { useCart } from '../context/CartContext';
 
 const stripePublicKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
 
@@ -15,8 +16,9 @@ if (!stripePublicKey) {
 const stripePromise = loadStripe(stripePublicKey);
 
 export default function Page() {
-  const { cart, removeFromCart, increaseQuantity, decreaseQuantity } = useCart();
-
+  const { checkoutItems, removeFromCheckout, clearCheckout, decreaseQuantity, increaseQuantity } = useCheckout(); 
+  const { cart, removeFromCart } = useCart();
+  
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   // Funktion för att skapa en checkout-session
@@ -28,11 +30,14 @@ export default function Page() {
         throw new Error('Stripe kunde inte laddas.');
       }
 
-      const products = cart.map(product => ({
+      const products = checkoutItems.map(product => ({
         name: product.name,
         price: product.price,
+        color: product.color,
+        size: product.size,
         quantity: product.quantity,
       }));
+      
   
       const response = await axios.post(`${apiUrl}/create-checkout-session`, { products });
   
@@ -46,20 +51,26 @@ export default function Page() {
   };
 
   // Beräkna total summa
-  const totalSum = cart.reduce((total, product) => total + product.price * product.quantity, 0);
+  const totalSum = checkoutItems.reduce((total, product) => total + product.price * product.quantity, 0);
 
   return (
   <div className="checkout">
     <h1 className="checkout__title">Varukorg</h1>
     <div className='checkout-container'>
-      {cart.length > 0 ? (
+      {checkoutItems.length > 0 ? (
         <div className='checkout-container-content'>
           <ul>
-            {cart.map((product: Product, index: number) => (
+            {checkoutItems.map((product, index) => (
               <li key={index}>
                 <p>
                   {product.brand} {product.name} -{" "}
                   {(product.price * product.quantity).toFixed(2)} Kr
+                </p>
+                <p>
+                Färg: {product.color}
+                </p>
+                <p>
+                Storlek: {product.size}
                 </p>
                 <div>
                   <div>
@@ -67,14 +78,14 @@ export default function Page() {
                     <span>{product.quantity}</span>
                     <button onClick={() => increaseQuantity(product._id)}>+</button>
                   </div>
-                    <button onClick={() => removeFromCart(product._id)}>Ta bort</button>
+                    <button onClick={() => removeFromCheckout(product._id)}>Ta bort</button>
                 </div>
               </li>
             ))}
           </ul>
         </div>
       ) : (
-        <p>Inga produkter i önskelistan ännu.</p>
+        <p>Inga produkter i kassan.</p>
       )}
       <div className='checkout-container-checkout'>
         <span className='checkout-container-checkout-total'><strong>Total</strong> Inkl. moms: {totalSum.toFixed(2)} Kr</span>

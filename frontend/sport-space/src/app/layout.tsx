@@ -3,6 +3,7 @@ import Footer from "./components/footer/footer";
 import "@/app/scss/main.scss"
 import { CartProvider } from "./context/CartContext";
 import { ProductProvider } from "./context/ProductContext";
+import { CheckoutProvider } from "./context/CheckoutContext";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -10,9 +11,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <CartProvider>
           <ProductProvider>
-          <Header />
-          {children}
-          <Footer />
+            <CheckoutProvider>
+              <Header />
+                {children}
+              <Footer />
+            </CheckoutProvider>
           </ProductProvider>
         </CartProvider>
       </body>

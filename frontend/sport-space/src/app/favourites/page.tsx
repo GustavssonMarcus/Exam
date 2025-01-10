@@ -3,31 +3,13 @@
 import { useCart } from '../context/CartContext';
 import { Product } from '../modules/products';
 import { useProductContext } from '@/app/context/ProductContext';
+import { useCheckout } from '../context/CheckoutContext';
 
 export default function Page() {
-  const { cart, removeFromCart} = useCart();
-  const { selectedSize, selectedColor, handleSizeChange, handleColorChange, setSelectedSize, setSelectedColor } = useProductContext();
+  const { cart, removeFromCart } = useCart();
+  const { selectedSize, selectedColor, handleSizeChange, handleColorChange } = useProductContext();
+  const { addToCheckout } = useCheckout();
   
-  // useEffect(() => {
-  //   const fetchProduct = async () => {
-  //     try {
-  //       const response = await axios.get(`${apiUrl}/product/${id}`, {
-  //         params: { _id: id },
-  //       });
-  //       setProduct(response.data);
-  //       if (response.data.size && response.data.size.length > 0) {
-  //         setSelectedSize(response.data.size[0]);
-  //       }
-  //       if (response.data.color && response.data.color.length > 0) {
-  //         setSelectedColor(response.data.color[0]);
-  //       }
-  //     } catch (error) {
-  //       console.error('Misslyckades att hämta produktdata:', error);
-  //     }
-  //   };
-
-  //   fetchProduct();
-  // }, [id, setSelectedSize, setSelectedColor]);
   return (
   <div className="cart">
     <h1 className="cart__title">Önskelistan</h1>
@@ -61,7 +43,7 @@ export default function Page() {
                     : <option value={product.color}>{product.color}</option>}
                 </select>
                 <div className='cart-container-content-products-checkout'>
-                  <button>Lägg till kassa</button>
+                  <button onClick={() => addToCheckout(product)}>Lägg till kassa</button>
                   <button onClick={() => removeFromCart(product._id)}>Ta bort</button>
                 </div>
               </div>
