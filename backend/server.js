@@ -122,8 +122,21 @@ app.get('/product/:id', async (req, res) => {
 //Hämta produkter
 app.get('/getProducts', async (req, res) => {
   try {
-    const products = await ProductModel.find();
-    res.status(200).json(products);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const skip = (page - 1) * limit;
+
+    const products = await ProductModel.find().skip(skip).limit(limit);
+
+    // Räkna totala antalet produkter i databasen
+    const totalProducts = await ProductModel.countDocuments();
+    res.status(200).json({
+      products,
+      currentPage: page,
+      totalPages: Math.ceil(totalProducts / limit),
+      totalProducts,
+    });
   } catch (error) {
     console.error("Fel vid hämtning av produkter:", error.message);
     res.status(500).json({ message: 'Ett serverfel inträffade.' });

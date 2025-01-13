@@ -13,20 +13,42 @@ export default function Page() {
   const { addToCart } = useCart();
   const [popupVisible, setPopupVisible] = useState(false);
   const [popupProduct, setPopupProduct] = useState<Product | null>(null);
+  const [currentPage, setCurrentPage] = useState(1); // Aktuell sida
+  const [totalPages, setTotalPages] = useState(1); // Totalt antal sidor
+  const [totalProducts, setTotalProducts] = useState(0);
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const productsPerPage = 10;
 
   useEffect(() => {
-    // Hämta alla produkter när sidan laddas
-    axios.get<Product[]>(`${apiUrl}/getProducts`)
+    axios
+      .get(`${apiUrl}/getProducts`, {
+        params: {
+          page: currentPage,
+          limit: productsPerPage,
+        },
+      })
       .then(response => {
-        setProducts(response.data);
-        setFilteredProducts(response.data);
+        setProducts(response.data.products);
+        setTotalPages(response.data.totalPages);
+        setTotalProducts(response.data.totalProducts);
       })
       .catch(error => {
         console.error('Misslyckades att hämta produkter:', error);
       });
-  }, []);
+  }, [currentPage]);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   const handleTypeChange = (type: string) => {
     setSelectedTypes(prevSelectedTypes =>
@@ -54,7 +76,7 @@ export default function Page() {
     addToCart(product);
     setPopupProduct(product);
     setPopupVisible(true);
-    setTimeout(() => setPopupVisible(false), 300000);
+    setTimeout(() => setPopupVisible(false), 10000);
   };
 
   return (
@@ -161,6 +183,18 @@ export default function Page() {
           <p>Inga produkter matchar de valda filtren.</p>
         )}
       </div>
+      <div className="sortiment-pagination">
+        <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+          Föregående
+        </button>
+        <span>
+          Sida {currentPage} av {totalPages}
+        </span>
+        <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+          Nästa
+        </button>
+      </div>
+
       {popupVisible && popupProduct && (
         <div className="popup">
           <div className="popup-content">
