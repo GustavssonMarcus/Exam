@@ -30,6 +30,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const addToCart = (product: Product) => {
     setCart((prevCart) => [
       ...prevCart,
+      {
+        ...product,
+        quantity: product.quantity || 1,
+        price: product.price || 0,
+      },
     ]);
   };
   //Ta bort produkt från önskelistan
