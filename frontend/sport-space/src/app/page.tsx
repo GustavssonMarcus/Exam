@@ -31,6 +31,27 @@ export default function Home() {
           </div>
         </section>
 
+        <section>
+          <div className="content">
+            <div className="content-contact">
+              <div className="content-contact-image">
+                <p className="content-contact-image__link">Kontakta oss</p>
+                <img src="/img/sport2.jpg" alt="sport2" className="content-contact-image__img"/>
+              </div>
+              <div className="content-contact-container">
+                <h1 className="content-contact-container__title">Vi hjälper dig gärna!</h1>
+                <p className="content-contact-container__text">
+                Har du frågor om våra produkter eller behöver hjälp? Vi finns här för att hjälpa dig! 
+                Tveka inte att höra av dig via e-post om du har några funderingar, eller om du bara vill säga hej.
+                </p>
+                <button className="content-contact-container__btn">
+                  <Link href="/kontakt">Kontakt oss</Link>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </main>
   );
 }

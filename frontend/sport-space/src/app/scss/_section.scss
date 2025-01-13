@@ -2,7 +2,7 @@
 @import "mixins";
 
 section {
-height: 120vh;
+height: auto;
 @include desktop {
     height: auto;
 }
@@ -22,7 +22,10 @@ height: 120vh;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
-
+                width: 50%;
+                @include mobile {
+                    width: 100%;
+                }
                 &__title {
                     font-family: v.$title-font;
                     font-size: 3rem;
@@ -59,6 +62,10 @@ height: 120vh;
             }
             &-image {
                 position: relative;
+                width: 50%;
+                @include mobile {
+                    width: 100%;
+                }
                 &__link {
                     position: absolute;
                     bottom: 0;
@@ -71,7 +78,7 @@ height: 120vh;
                     font-size: 2rem;
                 }
                 &__img {
-                    height: auto;
+                    width: 100%;
                     display: block;
                     transition: transform 0.5s ease;
                     @include mobile {
