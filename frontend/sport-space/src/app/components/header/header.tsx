@@ -1,10 +1,13 @@
 "use client";
 
+import { useCart } from '@/app/context/CartContext';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
+
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { cartCount } = useCart();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -35,7 +38,10 @@ const Header = () => {
         {/* Links */}
         <ul className={`header-links ${menuOpen ? 'open' : ''}`}>
           <li className="header-links__item">
-            <Link href="/favourites"><img src="/svg/wishlist.svg" alt="Önskelista"/>Önskelista</Link>
+            <Link href="/favourites">
+              <img src="/svg/wishlist.svg" alt="Önskelista" />
+              Önskelista<span>{cartCount}</span>
+            </Link>
           </li>
           <li className="header-links__item">
             <Link href="/checkout"><img src="/svg/kassa.svg" alt="Kassa"/>Kassa</Link>
