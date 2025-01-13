@@ -4,7 +4,7 @@ import { Product } from '../modules/products';
 
 type CheckoutContextType = {
   checkoutItems: Product[];
-  addToCheckout: (product: Product) => void;
+  addToCheckout: (product: Product, selectedSize: string, selectedColor: string) => void;
   removeFromCheckout: (_id: string) => void;
   clearCheckout: () => void;
   increaseQuantity: (_id: string) => void;
@@ -30,8 +30,14 @@ export const CheckoutProvider = ({ children }: { children: ReactNode }) => {
   }, [checkoutItems]);
 
   // Lägg till produkt i kassan
-  const addToCheckout = (product: Product) => {
-    setCheckoutItems((prevCheckout) => [...prevCheckout, product]);
+  const addToCheckout = (product: Product, selectedSize: string, selectedColor: string) => {
+    const checkoutProduct = {
+      ...product,
+      size: Array.isArray(product.size) ? selectedSize : product.size,
+      color: Array.isArray(product.color) ? selectedColor : product.color,
+    };
+  
+    setCheckoutItems((prevCheckout) => [...prevCheckout, checkoutProduct]);
   };
 
   // Ta bort en produkt från kassan

@@ -2,28 +2,52 @@
 
 import { useCart } from '../context/CartContext';
 import { Product } from '../modules/products';
-import { useProductContext } from '@/app/context/ProductContext';
 import { useCheckout } from '../context/CheckoutContext';
+import { useState } from 'react';
 
 export default function Page() {
   const { cart, removeFromCart } = useCart();
-  const { selectedSize, selectedColor, handleSizeChange, handleColorChange } = useProductContext();
   const { addToCheckout } = useCheckout();
+
+  const [selectedOptions, setSelectedOptions] = useState<{
+    [productId: string]: { size: string; color: string };
+  }>({});
+
+  const handleOptionChange = (productId: string, optionType: "size" | "color", value: string) => {
+    setSelectedOptions((prev) => ({
+      ...prev,
+      [productId]: {
+        ...prev[productId],
+        [optionType]: value,
+      },
+    }));
+  };
+
+  const handleAddToCheckout = (product: Product) => {
+    const selectedSize = selectedOptions[product._id]?.size || (Array.isArray(product.size) ? product.size[0] : product.size);
+    const selectedColor = selectedOptions[product._id]?.color || (Array.isArray(product.color) ? product.color[0] : product.color);
+  
+    addToCheckout(product, selectedSize, selectedColor);
+  };
   
   return (
-  <div className="cart">
-    <h1 className="cart__title">Önskelistan</h1>
-    <div className='cart-container'>
-      {cart.length > 0 ? (
-        <div className='cart-container-content'>
+    <div className="cart">
+      <h1 className="cart__title">Önskelistan</h1>
+      <div className="cart-container">
+        {cart.length > 0 ? (
+          <div className="cart-container-content">
             {cart.map((product: Product, index: number) => (
-              <div className='cart-container-content-products' key={index}>
+              <div className="cart-container-content-products" key={index}>
                 <div>
-                  <p>{product.brand} {product.name} {" "}</p>
+                  <p>{product.brand} {product.name}</p>
                   <p>{product.price} Kr</p>
                 </div>
                 <p className="label">Storlek:</p>
-                <select className="dropdown sizes" value={selectedSize} onChange={handleSizeChange}>
+                <select
+                  className="dropdown sizes"
+                  value={selectedOptions[product._id]?.size || product.size[0]}
+                  onChange={(e) => handleOptionChange(product._id, "size", e.target.value)}
+                >
                   {Array.isArray(product.size)
                     ? product.size.map((size, index) => (
                         <option key={index} value={size}>
@@ -33,7 +57,11 @@ export default function Page() {
                     : <option value={product.size}>{product.size}</option>}
                 </select>
                 <p className="label">Färger:</p>
-                <select className="dropdown colors" value={selectedColor} onChange={handleColorChange}>
+                <select
+                  className="dropdown colors"
+                  value={selectedOptions[product._id]?.color || product.color[0]}
+                  onChange={(e) => handleOptionChange(product._id, "color", e.target.value)}
+                >
                   {Array.isArray(product.color)
                     ? product.color.map((color, index) => (
                         <option key={index} value={color}>
@@ -42,17 +70,17 @@ export default function Page() {
                       ))
                     : <option value={product.color}>{product.color}</option>}
                 </select>
-                <div className='cart-container-content-products-checkout'>
-                  <button onClick={() => addToCheckout(product)}>Lägg till kassa</button>
+                <div className="cart-container-content-products-checkout">
+                  <button onClick={() => handleAddToCheckout(product)}>Lägg till kassa</button>
                   <button onClick={() => removeFromCart(product._id)}>Ta bort</button>
                 </div>
               </div>
             ))}
-        </div>
-      ) : (
-        <p>Inga produkter i önskelistan ännu.</p>
-      )}
+          </div>
+        ) : (
+          <p>Inga produkter i önskelistan ännu.</p>
+        )}
+      </div>
     </div>
-  </div>
   );
 }

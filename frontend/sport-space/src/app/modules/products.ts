@@ -4,7 +4,7 @@ export type Product = {
   brand: String,
   price: number,
   type: String,
-  size: string[],
-  color: string[],
+  size: string[] | string;
+  color: string[] | string;
   quantity: number
   };
