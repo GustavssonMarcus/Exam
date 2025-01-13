@@ -44,8 +44,8 @@ export default function ProductPage({ params }: { params: Params }) {
 
   return (
     <div className='product'>
-      <a href="/sortiment">
-        <img className='product-return' src="/svg/arrowLeft.svg" alt="return" />
+      <a className='product-return' href="/sortiment">
+        <img src="/svg/arrowLeft.svg" alt="return" /><span>Tillbaka</span>
       </a>
       <div className="product-info">
         <h1>{product.brand} - {product.name}</h1>

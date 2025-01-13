@@ -2,122 +2,132 @@
 @import "mixins";
 
 .product {
-    height: auto;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+  @include mobile {
+    flex-direction: column;
+  }
+  &-return {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 100px;
+    position: relative;
+    bottom: 160px;
+    height: 20px;
+    right: 100px;
+    width: 30px;
+    text-decoration: none;
+    list-style: none;
+    color: white;
     @include mobile {
-      flex-direction: column;
+      position: relative;
+      bottom: 0;
+      right: 150px;
+      margin: 5px;
     }
-    &-return {
-        position: relative;
-        bottom: 150px;
-        height: 20px;
-        right: 100px;
-        width: 30px;
-        //z-index: 2;
+    span {
+      font-size: 1.2rem;
+      font-family: v.$text-font;
     }
-    .product-info {
-        width: 600px;
-        margin: 50px;
-        padding: 20px;
-        background-color: #f9f9f9;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        @include mobile {
-          max-width: 100vw;
-          box-sizing: border-box;
-          margin: 0;
-        }
-        
-        h1 {
-          font-size: 2rem;
-          font-family: v.$text-font;
-          color: #333;
-          margin-bottom: 15px;
-          text-align: center;
-        }
+  }
+  .product-info {
+    width: 600px;
+    margin: 50px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    @include mobile {
+      max-width: 100vw;
+      box-sizing: border-box;
+      margin: 0;
+    } 
+    h1 {
+      font-size: 2rem;
+      font-family: v.$text-font;
+      color: #333;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    p {
+      font-size: 1rem;
+      font-family: v.$text-font;
+      color: #555;
+      margin: 8px 0;
+      line-height: 1.5;
       
-        p {
-          font-size: 1rem;
-          font-family: v.$text-font;
-          color: #555;
-          margin: 8px 0;
-          line-height: 1.5;
+      &.label {
+        font-weight: bold;
+        color: #333;
+      }
       
-          &.label {
-            font-weight: bold;
-            color: #333;
-          }
+      &.value {
+        font-style: italic;
+        color: #666;
+      }
+    }
       
-          &.value {
-            font-style: italic;
-            color: #666;
-          }
-        }
+    .product-type {
+      font-weight: bold;
+      color: #007BFF;
+    }
       
-        .product-type {
-          font-weight: bold;
-          color: #007BFF;
-        }
-      
-        .price {
-          font-size: 1.2rem;
-          color: #28a745;
-          font-weight: bold;
-        }
+    .price {
+      font-size: 1.2rem;
+      color: #28a745;
+      font-weight: bold;
+    }
 
-        .dropdown {
-            width: 100%;
-            max-width: 200px;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            color: #333;
-            appearance: none;
-            outline: none;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    .dropdown {
+      width: 100%;
+      max-width: 200px;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+      color: #333;
+      appearance: none;
+      outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
           
-            &:hover {
-              border-color: #999;
-            }
+      &:hover {
+        border-color: #999;
+      }
           
-            &:focus {
-              border-color: #666;
-              box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-            }
-          }
-      
-        .sizes,
-        .colors {
-          font-size: 0.9rem;
-          color: #6c757d;
-          display: flex;
-          flex-wrap: wrap;
-          gap: 10px;
-        }
-      
-        button {
-            border: none;
-            border-radius: 50px;
-            padding: 3px 6px;
-            position: relative;
-            left: 85%;
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-            transition: all 0.2s ease;
-        }
-        button:hover {
-            box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.3);
-        }
-        button:active {
-            transform: scale(0.95);
-            filter: blur(1px);
-            box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
-        }
-      
+      &:focus {
+        border-color: #666;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      }
     }
+      
+    .sizes,
+    .colors {
+      font-size: 0.9rem;
+      color: #6c757d;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+      
+    button {
+      border: none;
+      border-radius: 50px;
+      padding: 3px 6px;
+      position: relative;
+      left: 85%;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+      transition: all 0.2s ease;
+    }
+    button:hover {
+      box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.3);
+    }
+    button:active {
+      transform: scale(0.95);
+      filter: blur(1px);
+      box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+    } 
+  }
 }
