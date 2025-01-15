@@ -15,6 +15,9 @@ export default function ProductPage({ params }: { params: Params }) {
   const [product, setProduct] = useState<Product | null>(null);
   const { selectedSize, selectedColor, handleSizeChange, handleColorChange, setSelectedSize, setSelectedColor } = useProductContext();
   const { addToCart } = useCart();
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [popupProduct, setPopupProduct] = useState<Product | null>(null);
+
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
@@ -39,6 +42,13 @@ export default function ProductPage({ params }: { params: Params }) {
   if (!product) {
     return <div>Laddar produkt...</div>;
   }
+
+  const handleAddToCart = (product: Product) => {
+    addToCart(product);
+    setPopupProduct(product);
+    setPopupVisible(true);
+    setTimeout(() => setPopupVisible(false), 10000);
+  };
 
   return (
     <div className='product'>
@@ -72,10 +82,21 @@ export default function ProductPage({ params }: { params: Params }) {
               ))
             : <option value={product.color}>{product.color}</option>}
         </select>
-        <button onClick={() => addToCart(product)}>
+        <button onClick={() => handleAddToCart(product)}>
           <img src="/svg/wishlist.svg" alt="Önskelista" />
         </button>
       </div>
+      {popupVisible && popupProduct && (
+        <div className="popup">
+          <div className="popup-content">
+            <h2>Produkt tillagd i kundvagnen!</h2>
+            <p>
+              <strong>{popupProduct.name}</strong> har lagts till i din önskelista.
+            </p>
+            <button onClick={() => setPopupVisible(false)}>Stäng</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -90,7 +90,7 @@ export default function Page() {
       <div className='checkout-container-checkout'>
         <span className='checkout-container-checkout-total'><strong>Total</strong> Inkl. moms: {totalSum.toFixed(2)} Kr</span>
         <button className='checkout-container-checkout-btn' onClick={handleCheckout}>
-          Gå till kassa
+          Gå till betala
         </button>
       </div>
     </div>
