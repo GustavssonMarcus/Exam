@@ -164,7 +164,7 @@ export default function Page() {
           filteredProducts.map((product, index) => (
             <div className='sortiment-content-product' key={index}>
               <div>
-                <Link href={`/sortiment/${product._id}`}>
+              <Link href={`/sortiment/${product.slug}`}>
                 <ul>
                   <li>{product.type}</li>
                   <li>{product.brand} - {product.name}</li>

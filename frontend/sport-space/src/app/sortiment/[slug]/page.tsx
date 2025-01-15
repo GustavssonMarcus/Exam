@@ -7,11 +7,11 @@ import { useCart } from '@/app/context/CartContext';
 import { useProductContext } from '@/app/context/ProductContext';
 
 type Params = {
-  id: string;
+  slug: string;
 };
 
 export default function ProductPage({ params }: { params: Params }) {
-  const { id } = React.use(params);
+  const { slug } = React.use(params);
   const [product, setProduct] = useState<Product | null>(null);
   const { selectedSize, selectedColor, handleSizeChange, handleColorChange, setSelectedSize, setSelectedColor } = useProductContext();
   const { addToCart } = useCart();
@@ -20,9 +20,7 @@ export default function ProductPage({ params }: { params: Params }) {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/product/${id}`, {
-          params: { _id: id },
-        });
+        const response = await axios.get(`${apiUrl}/product/${slug }`);
         setProduct(response.data);
         if (response.data.size && response.data.size.length > 0) {
           setSelectedSize(response.data.size[0]);
@@ -36,7 +34,7 @@ export default function ProductPage({ params }: { params: Params }) {
     };
 
     fetchProduct();
-  }, [id, setSelectedSize, setSelectedColor]);
+  }, [slug , setSelectedSize, setSelectedColor]);
 
   if (!product) {
     return <div>Laddar produkt...</div>;

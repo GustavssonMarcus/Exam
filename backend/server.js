@@ -20,8 +20,21 @@ if (!MONGOURL) {
 }
 //Koppling mellan mongodb och vs code
 mongoose.connect(MONGOURL)
-  .then(() => {
+  .then(async () => {
     console.log("Ansluten till MongoDB!");
+    const updateSlugs = async () => {
+      const products = await ProductModel.find();
+      for (const product of products) {
+        if (!product.slug) {
+          product.slug = product.name.toLowerCase().replace(/[\s\W-]+/g, '-');
+          await product.save();
+        }
+      }
+      console.log("Alla slugs har uppdaterats!");
+    };
+
+    await updateSlugs();
+
     app.listen(PORT, () => {
       console.log(`Server är igång på port ${PORT}`);
     });
@@ -35,12 +48,20 @@ mongoose.connect(MONGOURL)
 const productSchema = new mongoose.Schema({
 
   name: { type: String, required: true },
+  slug: { type: String, unique: true },
   brand: { type: String, required: true },
   price: { type: Number, required: true },
   type: { type: String, required: true },
   size: { type: [String], required: true, default: ["Standard"] },
   color: { type: [String], required: true, default: ["Default Color"] },
 }, { timestamps: true });
+
+productSchema.pre('save', function (next) {
+  if (this.isModified('name')) {
+    this.slug = this.name.toLowerCase().replace(/[\s\W-]+/g, '-');
+  }
+  next();
+});
 
   const ProductModel = mongoose.model("Product", productSchema);
 
@@ -95,23 +116,17 @@ app.get('/cancel', (req, res) => {
 });
 
 //Hämta produkt baserat på Id
-app.get('/product/:id', async (req, res) => {
+app.get('/product/:slug', async (req, res) => {
   try {
-    const productId = req.params.id;
+    const productSlug = req.params.slug;
 
-    // Kontrollera om ID:t är ett giltigt ObjectId
-    if (!mongoose.Types.ObjectId.isValid(productId)) {
-      return res.status(400).json({ message: 'Ogiltigt ID-format.' });
-    }
-
-    // Hämta produkten baserat på ObjectId
-    const product = await ProductModel.findById(productId);
+    // Hämta produkten baserat på slug
+    const product = await ProductModel.findOne({ slug: productSlug });
 
     if (!product) {
       return res.status(404).json({ message: 'Produkten hittades inte.' });
     }
 
-    // Returnera produkten
     res.status(200).json(product);
   } catch (error) {
     console.error("Fel vid hämtning av produkt:", error.message);
