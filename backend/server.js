@@ -18,6 +18,27 @@ if (!MONGOURL) {
   console.error("MONGO_URL är undefined. Kontrollera din .env-fil.");
   process.exit(1);
 }
+
+//Hämtar data från mongodb
+const productSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  slug: { type: String, unique: true },
+  brand: { type: String, required: true },
+  price: { type: Number, required: true },
+  type: { type: String, required: true },
+  size: { type: [String], required: true, default: ["Standard"] },
+  color: { type: [String], required: true, default: ["Default Color"] },
+}, { timestamps: true });
+
+productSchema.pre('save', function (next) {
+  if (this.isModified('name')) {
+    this.slug = this.name.toLowerCase().replace(/[\s\W-]+/g, '-');
+  }
+  next();
+});
+
+const ProductModel = mongoose.model("Product", productSchema);
+
 //Koppling mellan mongodb och vs code
 mongoose.connect(MONGOURL)
   .then(async () => {
@@ -43,27 +64,6 @@ mongoose.connect(MONGOURL)
     console.error("Misslyckades att ansluta till MongoDB:", err.message);
     process.exit(1);
   });
-
-//Hämtar data från mongodb
-const productSchema = new mongoose.Schema({
-
-  name: { type: String, required: true },
-  slug: { type: String, unique: true },
-  brand: { type: String, required: true },
-  price: { type: Number, required: true },
-  type: { type: String, required: true },
-  size: { type: [String], required: true, default: ["Standard"] },
-  color: { type: [String], required: true, default: ["Default Color"] },
-}, { timestamps: true });
-
-productSchema.pre('save', function (next) {
-  if (this.isModified('name')) {
-    this.slug = this.name.toLowerCase().replace(/[\s\W-]+/g, '-');
-  }
-  next();
-});
-
-  const ProductModel = mongoose.model("Product", productSchema);
 
 // API-routes
 
